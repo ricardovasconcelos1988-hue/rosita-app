@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rosita — Fotógrafa de Famílias</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+  :root {
+    --rose:#c9a4a4;--rose-light:#e8d5d5;--rose-pale:#f5eeee;--rose-dark:#8a6060;
+    --cream:#faf7f5;--warm-white:#fff9f7;--text:#3a2c2c;--text-muted:#9a7e7e;
+    --text-light:#c4a8a8;--border:#eedede;--gold:#c9a86c;--green:#7aab8a;
+    --red:#c97a7a;--blue:#7a90c9;
+    --shadow:0 4px 24px rgba(139,96,96,0.08);--shadow-lg:0 12px 48px rgba(139,96,96,0.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;display:flex;}
+  .sidebar{width:240px;min-height:100vh;background:var(--warm-white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto;}
+  .logo{padding:36px 28px 28px;border-bottom:1px solid var(--border);}
+  .logo-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--text);letter-spacing:0.02em;line-height:1.2;}
+  .logo-sub{font-size:10px;color:var(--text-muted);letter-spacing:0.14em;text-transform:uppercase;margin-top:4px;}
+  .nav{padding:24px 16px;flex:1;}
+  .nav-section{margin-bottom:26px;}
+  .nav-section-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-light);padding:0 12px;margin-bottom:8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;transition:all 0.2s;font-size:13.5px;color:var(--text-muted);font-weight:400;border:none;background:none;width:100%;text-align:left;}
+  .nav-item:hover{background:var(--rose-pale);color:var(--text);}
+  .nav-item.active{background:var(--rose-pale);color:var(--rose-dark);font-weight:500;}
+  .nav-item svg{opacity:0.7;flex-shrink:0;}
+  .nav-item.active svg{opacity:1;}
+  .sidebar-footer{padding:20px 28px;border-top:1px solid var(--border);}
+  .avatar-row{display:flex;align-items:center;gap:10px;}
+  .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-dark));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:white;flex-shrink:0;}
+  .avatar-info{flex:1;min-width:0;}
+  .avatar-name{font-size:13px;font-weight:500;color:var(--text);}
+  .avatar-role{font-size:11px;color:var(--text-muted);}
+  .main{margin-left:240px;flex:1;min-height:100vh;}
+  .topbar{background:var(--warm-white);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+  .page-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--text);font-style:italic;}
+  .topbar-actions{display:flex;align-items:center;gap:12px;}
+  .btn{padding:8px 20px;border-radius:100px;font-size:12.5px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;font-weight:500;letter-spacing:0.02em;border:none;}
+  .btn-primary{background:var(--rose-dark);color:white;}
+  .btn-primary:hover{background:#7a5252;transform:translateY(-1px);box-shadow:var(--shadow);}
+  .btn-outline{background:transparent;color:var(--rose-dark);border:1px solid var(--rose);}
+  .btn-outline:hover{background:var(--rose-pale);}
+  .btn-sm{padding:5px 14px;font-size:11.5px;}
+  .btn-ghost{background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text-muted);transition:color 0.2s;padding:4px 8px;border-radius:6px;}
+  .btn-ghost:hover{color:var(--rose-dark);background:var(--rose-pale);}
+  .btn-danger{color:var(--red)!important;}
+  .btn-danger:hover{background:#faeaea!important;color:var(--red)!important;}
+  .page-content{padding:24px;display:none;}
+  .page-content.active{display:block;}
+  .welcome-banner{background:linear-gradient(135deg,#c9a4a4 0%,#8a6060 100%);border-radius:20px;padding:32px 40px;color:white;margin-bottom:32px;position:relative;overflow:hidden;}
+  .welcome-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.08);}
+  .welcome-banner::after{content:'';position:absolute;bottom:-60px;right:80px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.05);}
+  .welcome-label{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.8;margin-bottom:8px;}
+  .welcome-title{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;margin-bottom:6px;}
+  .welcome-sub{font-size:14px;opacity:0.75;}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px;}
+  .stat-card{background:var(--warm-white);border-radius:16px;padding:24px;border:1px solid var(--border);transition:transform 0.2s,box-shadow 0.2s;}
+  .stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .stat-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;}
+  .stat-value{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;color:var(--text);line-height:1;margin-bottom:8px;}
+  .stat-trend{font-size:12px;}
+  .trend-up{color:var(--green);}
+  .trend-down{color:var(--red);}
+  .stat-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+  .icon-rose{background:var(--rose-pale);}
+  .icon-gold{background:#f8f2e6;}
+  .icon-green{background:#eef5f1;}
+  .icon-blue{background:#eef0f8;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .three-two{display:grid;grid-template-columns:3fr 2fr;gap:24px;}
+  .card{background:var(--warm-white);border-radius:16px;border:1px solid var(--border);overflow:hidden;}
+  .card-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--text);}
+  .card-action{font-size:12px;color:var(--rose-dark);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;}
+  .card-body{padding:20px 24px;}
+  .payment-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+  .payment-item:last-child{border-bottom:none;}
+  .payment-info{display:flex;align-items:center;gap:12px;}
+  .payment-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .payment-name{font-size:13.5px;color:var(--text);font-weight:500;}
+  .payment-date{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+  .badge{display:inline-flex;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;}
+  .badge-pending{background:#faeaea;color:var(--red);}
+  .badge-received{background:#eef5f1;color:#5a8a6a;}
+  .badge-overdue{background:#faeaea;color:var(--red);}
+  .badge-confirmed{background:#eef0f8;color:#5060a8;}
+  .badge-tentative{background:#fdf3e0;color:#c49a30;}
+  .badge-cancelled{background:#faeaea;color:var(--red);}
+  .badge-done{background:#eef5f1;color:#5a8a6a;}
+  .badge-partial{background:#eef0f8;color:#5060a8;}
+  .goal-row{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:12px;}
+  .goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .goal-name{font-size:14px;color:var(--text);font-weight:500;}
+  .goal-values{font-size:12px;color:var(--text-muted);}
+  .progress-bar{height:6px;background:var(--rose-pale);border-radius:100px;overflow:hidden;}
+  .progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--rose),var(--rose-dark));transition:width 1s ease;}
+  .mini-chart{display:flex;align-items:flex-end;gap:6px;padding:8px 0;}
+  .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .bar{width:100%;border-radius:4px 4px 0 0;background:var(--rose-light);min-height:4px;}
+  .bar.highlight{background:var(--rose-dark);}
+  .bar-label{font-size:10px;color:var(--text-muted);}
+  .fin-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px;}
+  .fin-card{background:var(--warm-white);border-radius:16px;padding:24px;border:1px solid var(--border);}
+  .fin-amount{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;margin-bottom:6px;}
+  .amount-green{color:var(--green);}
+  .amount-red{color:var(--red);}
+  .amount-gold{color:var(--gold);}
+  .amount-blue{color:var(--blue);}
+  .filter-bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);background:var(--rose-pale);}
+  .filter-group{display:flex;align-items:center;gap:8px;}
+  .filter-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);white-space:nowrap;}
+  .filter-select{padding:6px 12px;border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-family:'DM Sans',sans-serif;color:var(--text);background:white;cursor:pointer;outline:none;}
+  .filter-select:focus{border-color:var(--rose);}
+  .table-wrap{background:var(--warm-white);border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:24px;}
+  table{width:100%;border-collapse:collapse;}
+  thead{background:var(--rose-pale);}
+  th{padding:12px 20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);text-align:left;font-weight:500;}
+  td{padding:13px 20px;font-size:13.5px;color:var(--text);border-bottom:1px solid var(--border);}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:var(--rose-pale);}
+  .action-cell{display:flex;gap:2px;}
+  .calendar-layout{display:grid;grid-template-columns:1.2fr 340px;gap:24px;}
+  .calendar-wrap{background:var(--warm-white);border-radius:16px;border:1px solid var(--border);overflow:hidden;}
+  .cal-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);}
+  .cal-nav{display:flex;gap:8px;align-items:center;}
+  .cal-nav button{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:8px;padding:4px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.2s;}
+  .cal-nav button:hover{background:var(--rose-pale);color:var(--text);}
+  .cal-month{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);}
+  .cal-grid{padding:10px;}
+  .cal-days-header{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:8px;}
+  .cal-day-name{text-align:center;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);padding:6px 0;font-weight:500;}
+  .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+  .cal-day{min-height:72px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:10px 4px;cursor:pointer;transition:all 0.15s;}
+  .cal-day:hover{background:var(--rose-pale);}
+  .cal-day.other-month .cal-day-num{color:var(--text-light);}
+  .cal-day.today .cal-day-num{background:var(--rose-dark);color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;}
+  .cal-day.selected{background:var(--rose-pale);border:1px solid var(--rose);}
+  .cal-day-num{font-size:13px;font-weight:500;margin-bottom:2px;}
+  .cal-dots{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;padding:0 2px;}
+  .cal-dot{width:5px;height:5px;border-radius:50%;}
+  .cal-dot-confirmed{background:var(--blue);}
+  .cal-dot-tentative{background:var(--gold);}
+  .cal-dot-done{background:var(--green);}
+  .cal-dot-cancelled{background:var(--red);}
+  .cal-sidebar{display:flex;flex-direction:column;gap:24px;}
+  .selected-day-card{background:var(--warm-white);border-radius:16px;border:1px solid var(--border);padding:16px;}
+  .selected-day-header{margin-bottom:20px;}
+  .selected-day-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:4px;}
+  .selected-day-sub{font-size:12px;color:var(--text-muted);}
+  .appt-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);position:relative;}
+  .appt-item:last-child{border-bottom:none;}
+  .appt-time{font-size:12px;font-weight:500;color:var(--rose-dark);width:45px;flex-shrink:0;}
+  .appt-info{flex:1;min-width:0;}
+  .appt-name{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:2px;}
+  .appt-detail{font-size:11.5px;color:var(--text-muted);}
+  .appt-status-dot{width:8px;height:8px;border-radius:50%;position:absolute;top:16px;right:0;}
+  .appt-dot-confirmed{background:var(--blue);}
+  .appt-dot-tentative{background:var(--gold);}
+  .appt-dot-done{background:var(--green);}
+  .appt-dot-cancelled{background:var(--red);}
+  .no-appts{text-align:center;padding:32px 0;color:var(--text-muted);font-size:13px;}
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(58,44,44,0.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:white;border-radius:20px;width:100%;max-width:540px;padding:32px;box-shadow:var(--shadow-lg);max-height:90vh;overflow-y:auto;position:relative;}
+  .modal-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text);margin-bottom:24px;}
+  .form-group{margin-bottom:18px;}
+  .form-group label{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:8px;font-weight:500;}
+  .form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 16px;border-radius:10px;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;background:#fdfdfd;}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--rose);}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+  .form-row .form-group{margin-bottom:0;}
+  .modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:32px;}
+  .toast{position:fixed;bottom:32px;right:32px;background:var(--text);color:white;padding:12px 24px;border-radius:12px;font-size:13px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:2000;}
+  .toast.show{transform:translateY(0);opacity:1;}
+  .analysis-filters{display:flex;gap:16px;background:var(--warm-white);padding:20px 24px;border-radius:16px;border:1px solid var(--border);margin-bottom:24px;align-items:flex-end;flex-wrap:wrap;}
+  .analysis-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:24px;}
+  .analysis-card{background:var(--warm-white);border-radius:16px;padding:24px;border:1px solid var(--border);}
+  .analysis-kpi{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;margin:10px 0 4px;}
+  .analysis-sub{font-size:12px;color:var(--text-muted);}
+  .chart-bar-h{display:flex;flex-direction:column;gap:14px;}
+  .chart-h-row{display:flex;align-items:center;gap:12px;}
+  .chart-h-label{font-size:12px;color:var(--text-muted);width:110px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .chart-h-track{flex:1;height:8px;background:var(--rose-pale);border-radius:100px;overflow:hidden;}
+  .chart-h-fill{height:100%;background:var(--rose-dark);border-radius:100px;}
+  .chart-h-val{font-size:12px;font-weight:500;color:var(--text);width:70px;}
+  .donut-wrap{display:flex;align-items:center;gap:32px;}
+  .donut-legend{display:flex;flex-direction:column;gap:10px;}
+  .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);}
+  .legend-dot{width:10px;height:10px;border-radius:2px;}
+  /* Google Calendar Sync */
+  .gcal-btn{display:flex;align-items:center;gap:8px;padding:7px 16px;border-radius:100px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;font-weight:500;border:1px solid var(--border);background:white;color:var(--text-muted);}
+  .gcal-btn:hover{border-color:var(--rose);color:var(--rose-dark);background:var(--rose-pale);}
+  .gcal-btn.connected{border-color:#34a853;color:#1a7a33;background:#f0faf3;}
+  .gcal-btn.syncing{opacity:0.7;cursor:not-allowed;}
+  .gcal-dot{width:7px;height:7px;border-radius:50%;background:#d0d0d0;flex-shrink:0;}
+  .gcal-btn.connected .gcal-dot{background:#34a853;}
+  .gcal-icon{flex-shrink:0;}
+  .gcal-sync-panel{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:20px;display:none;}
+  .gcal-sync-panel.visible{display:block;}
+  .gcal-sync-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .gcal-sync-info{font-size:12.5px;color:var(--text-muted);}
+  .gcal-sync-info strong{color:var(--text);}
+  .gcal-sync-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .gcal-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:100px;background:#e8f5e9;color:#2e7d32;font-weight:500;}
+  @media (max-width:1024px){
+    .sidebar{width:70px;padding:20px 0;}
+    .logo-name,.logo-sub,.nav-section-label,.nav-item span,.avatar-info,.sidebar-footer{display:none;}
+    .nav-item{justify-content:center;padding:12px 0;}
+    .main{margin-left:70px;}
+    .stats-grid{grid-template-columns:1fr;}
+    .two-col,.three-two,.calendar-layout,.analysis-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-name">Rosita</div>
+    <div class="logo-sub">Fotógrafa de Famílias</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section">
+      <div class="nav-section-label">Principal</div>
+      <button class="nav-item active" onclick="goTo('dashboard',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" onclick="goTo('agenda',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Calendário</span>
+      </button>
+      <button class="nav-item" onclick="goTo('compromissos',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Compromissos</span>
+      </button>
+      <button class="nav-item" onclick="goTo('albuns',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <span>Álbuns</span>
+      </button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Financeiro</div>
+      <button class="nav-item" onclick="goTo('recebimentos',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        <span>Recebimentos</span>
+      </button>
+      <button class="nav-item" onclick="goTo('despesas',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+        <span>Despesas</span>
+      </button>
+      <button class="nav-item" onclick="goTo('analise',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Análise</span>
+      </button>
+      <button class="nav-item" onclick="goTo('metas',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+        <span>Metas</span>
+      </button>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="avatar-row">
+      <div class="avatar">R</div>
+      <div class="avatar-info">
+        <div class="avatar-name">Rosita</div>
+        <div class="avatar-role">Fotógrafa</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="page-title" id="page-title">Dashboard</div>
+    <div class="topbar-actions" id="topbar-actions">
+      <button class="btn btn-outline" onclick="openRecebimentoTopo()">+ Recebimento</button>
+      <button class="btn btn-primary" onclick="openModal('appointment')">+ Agendamento</button>
+    </div>
+    <button class="gcal-btn" id="gcal-btn" onclick="handleGCalAuth()" title="Sincronizar com Google Calendar">
+      <svg class="gcal-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="16" r="1.5" fill="#4285F4"/><circle cx="12" cy="16" r="1.5" fill="#EA4335"/><circle cx="16" cy="16" r="1.5" fill="#34A853"/></svg>
+      <div class="gcal-dot" id="gcal-dot"></div>
+      <span id="gcal-btn-label">Google Cal</span>
+    </button>
+  </header>
+
+  <!-- DASHBOARD -->
+  <section class="page-content active" id="page-dashboard">
+    <div class="welcome-banner">
+      <div class="welcome-label">Bem-vinda de volta</div>
+      <div class="welcome-title">Olá, Rosita!</div>
+      <div class="welcome-sub" id="dash-sub">Você tem sessões agendadas para esta semana.</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon icon-rose">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+        </div>
+        <div class="stat-label">Sessões no Mês</div>
+        <div class="stat-value" id="stat-sessions">—</div>
+        <div class="stat-trend trend-up">Total de sessões no mês</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon icon-gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        </div>
+        <div class="stat-label">Faturamento <span id="dash-year-label"></span></div>
+        <div class="stat-value" id="dash-annual-total">—</div>
+        <div class="stat-trend trend-up">Total recebido no mês</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon icon-green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+        </div>
+        <div class="stat-label" id="dash-goal-title">Metas do Mês</div>
+        <div class="stat-value" id="dash-goal-pct">—</div>
+        <div class="stat-trend trend-up" id="dash-goal-sub">Defina suas metas</div>
+      </div>
+    </div>
+
+    <div class="three-two">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Próximas 3 Sessões</div>
+          <button class="card-action" onclick="goTo('agenda',document.querySelectorAll('.nav-item')[1])">Ver calendário</button>
+        </div>
+        <div class="card-body" id="dash-upcoming"></div>
+      </div>
+
+      <div class="sidebar-cards" style="display:flex;flex-direction:column;gap:24px">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Resumo Financeiro</div></div>
+          <div class="card-body">
+            <div style="margin-bottom:20px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;color:var(--text-muted)">Recebido este mês</span><span style="font-size:12px;font-weight:500;color:var(--green)" id="dash-received">—</span></div>
+              <div style="font-size:11px;color:var(--text-light)" id="dash-received-trend"></div>
+            </div>
+            <div style="margin-bottom:24px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;color:var(--text-muted)">Pendente / Atrasado</span><span style="font-size:12px;font-weight:500;color:var(--red)" id="dash-pending">—</span></div>
+              <div style="font-size:11px;color:var(--text-light)" id="dash-pending-trend"></div>
+            </div>
+            <div class="mini-chart" id="dash-chart"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Metas de Vendas</div></div>
+          <div class="card-body" id="dash-goals"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALENDÁRIO -->
+  <section class="page-content" id="page-agenda">
+    <div id="gcal-sync-panel" class="gcal-sync-panel">
+      <div class="gcal-sync-row">
+        <div class="gcal-sync-info">
+          <strong>Google Calendar conectado</strong> — agendamentos sincronizam automaticamente.
+          <span class="gcal-tag" style="margin-left:8px">✓ Ativo</span>
+        </div>
+        <div class="gcal-sync-actions">
+          <button class="btn btn-outline btn-sm" onclick="importFromGCal()">⬇ Importar do Google</button>
+          <button class="btn btn-outline btn-sm" onclick="exportAllToGCal()">⬆ Exportar tudo</button>
+          <button class="btn-ghost btn-sm btn-danger" onclick="disconnectGCal()">Desconectar</button>
+        </div>
+      </div>
+    </div>
+    <div class="calendar-layout">
+      <div class="calendar-wrap">
+        <div class="cal-header">
+          <div class="cal-month" id="cal-month-label">Março 2024</div>
+          <div class="cal-nav">
+            <button onclick="changeMonth(-1)">←</button>
+            <button onclick="changeMonth(0)">Hoje</button>
+            <button onclick="changeMonth(1)">→</button>
+          </div>
+        </div>
+        <div class="cal-grid">
+          <div class="cal-days-header">
+            <div class="cal-day-name">Dom</div><div class="cal-day-name">Seg</div><div class="cal-day-name">Ter</div><div class="cal-day-name">Qua</div><div class="cal-day-name">Qui</div><div class="cal-day-name">Sex</div><div class="cal-day-name">Sáb</div>
+          </div>
+          <div class="cal-days" id="cal-days"></div>
+        </div>
+      </div>
+      <div class="cal-sidebar">
+        <div class="selected-day-card">
+          <div class="selected-day-header">
+            <div class="selected-day-title" id="selected-day-title">Hoje</div>
+            <div class="selected-day-sub" id="selected-day-sub">Carregando...</div>
+          </div>
+          <div id="selected-day-appts"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="page-content" id="page-compromissos">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Próximos Confirmados</div>
+        <div class="stat-value" id="stat-confirmed">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Aguardando Confirmação</div>
+        <div class="stat-value" id="stat-tentative">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Sessões Realizadas</div>
+        <div class="stat-value" id="stat-done">—</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cliente</th><th>Tipo</th><th>Data</th><th>Hora</th><th>Local</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody id="appt-table-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- RECEBIMENTOS -->
+  <section class="page-content" id="page-recebimentos">
+    <div class="fin-summary">
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Total Recebido (Mês)</div>
+        <div class="fin-amount amount-green" id="rec-total-received">—</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="rec-received-sub"></div>
+      </div>
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">A Receber / Pendente</div>
+        <div class="fin-amount amount-gold" id="rec-total-pending">—</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="rec-pending-sub"></div>
+      </div>
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Total Atrasado</div>
+        <div class="fin-amount amount-red" id="rec-total-overdue">—</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="rec-overdue-sub"></div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="filter-bar">
+        <div class="filter-group"><span class="filter-label">Origem</span>
+          <select class="filter-select" id="rec-filter-origem" onchange="renderPayments()">
+            <option value="">Todas</option><option value="Sessão">Sessão</option><option value="Álbum">Álbum</option><option value="Avulso">Avulso</option>
+          </select>
+        </div>
+        <div class="filter-group"><span class="filter-label">Status</span>
+          <select class="filter-select" id="rec-filter-status" onchange="renderPayments()">
+            <option value="">Todos</option><option value="Recebido">Recebido</option><option value="Parcial">Parcial</option><option value="Pendente">Pendente</option><option value="Atrasado">Atrasado</option>
+          </select>
+        </div>
+        <div class="filter-group"><span class="filter-label">Período</span>
+          <select class="filter-select" id="rec-filter-period" onchange="renderPayments()">
+            <option value="">Todo período</option><option value="thismonth">Este mês</option><option value="lastmonth">Mês passado</option><option value="thisyear">Este ano</option>
+          </select>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Cliente / Descrição</th><th>Categoria</th><th>Origem</th><th>Vencimento</th><th>Valor</th><th>Status</th><th>Vínculo</th><th></th></tr></thead>
+        <tbody id="payments-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DESPESAS -->
+  <section class="page-content" id="page-despesas">
+    <div class="fin-summary">
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Despesas do Mês</div>
+        <div class="fin-amount amount-red" id="exp-total-month">—</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="exp-count-month"></div>
+      </div>
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Saldo Operacional</div>
+        <div class="fin-amount amount-blue" id="exp-profit">—</div>
+        <div style="font-size:12px;color:var(--text-muted)">Receita - Despesas</div>
+      </div>
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Maior Categoria</div>
+        <div class="fin-amount amount-gold" id="exp-top-cat">—</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="exp-top-val"></div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="filter-bar">
+        <div class="filter-group"><span class="filter-label">Categoria</span>
+          <select class="filter-select" id="exp-filter-cat" onchange="renderExpenses()">
+            <option value="">Todas</option><option>Equipamento</option><option>Marketing</option><option>Software/Assinaturas</option><option>Gráfica/Álbuns</option><option>Transporte</option><option>Alimentação</option><option>Outros</option>
+          </select>
+        </div>
+        <div class="filter-group"><span class="filter-label">Período</span>
+          <select class="filter-select" id="exp-filter-period" onchange="renderExpenses()">
+            <option value="">Todo período</option><option value="thismonth">Este mês</option><option value="lastmonth">Mês passado</option><option value="thisyear">Este ano</option>
+          </select>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Pagamento</th><th></th></tr></thead>
+        <tbody id="expenses-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ÁLBUNS -->
+  <section class="page-content" id="page-albuns">
+    <div class="fin-summary">
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Aguardando aprovação</div>
+        <div class="fin-amount amount-gold" id="alb-stat-aprovacao">—</div>
+        <div style="font-size:12px;color:var(--text-muted)">aguardando cliente</div>
+      </div>
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Receita de álbuns</div>
+        <div class="fin-amount amount-green" id="alb-stat-receita">—</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="alb-stat-receita-sub"></div>
+      </div>
+      <div class="fin-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Pendente álbuns</div>
+        <div class="fin-amount amount-gold" id="alb-stat-pendente">—</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="alb-stat-pendente-sub"></div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px">Álbuns</div>
+        <button class="btn btn-primary" onclick="openModal('album')">+ Novo álbum</button>
+      </div>
+      <div class="filter-bar">
+        <div class="filter-group"><span class="filter-label">Etapa</span>
+          <select class="filter-select" id="alb-filter-status" onchange="renderAlbums()">
+            <option value="">Todas</option>
+            <option value="Aguardando seleção">Aguardando seleção</option>
+            <option value="Em diagramação">Em diagramação</option>
+            <option value="Aguardando aprovação">Aguardando aprovação</option>
+            <option value="Aprovado">Aprovado</option>
+            <option value="Enviado para gráfica">Enviado para gráfica</option>
+            <option value="Entregue">Entregue</option>
+          </select>
+        </div>
+        <div class="filter-group"><span class="filter-label">Tipo</span>
+          <select class="filter-select" id="alb-filter-type" onchange="renderAlbums()">
+            <option value="">Todos</option><option>Álbum impresso</option><option>Fotolivro</option><option>Mini álbum</option><option>Álbum digital</option>
+          </select>
+        </div>
+        <div class="filter-group"><span class="filter-label">Pagamento</span>
+          <select class="filter-select" id="alb-filter-pay" onchange="renderAlbums()">
+            <option value="">Todos</option><option value="Recebido">Recebido</option><option value="Parcial">Parcial</option><option value="Pendente">Pendente</option><option value="Atrasado">Atrasado</option>
+          </select>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Cliente</th><th>Tipo</th><th>Sessão vinculada</th><th>Etapa</th><th>Valor total</th><th>Financeiro</th><th>Entrega</th><th></th></tr></thead>
+        <tbody id="albums-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ANÁLISE FINANCEIRA -->
+  <section class="page-content" id="page-analise">
+    <div class="analysis-filters">
+      <div class="filter-group"><span class="filter-label">Período</span>
+        <select class="filter-select" id="an-period" onchange="toggleCustomDates();renderAnalysis()">
+          <option value="thismonth">Este mês</option><option value="last3">Últimos 3 meses</option><option value="last6">Últimos 6 meses</option><option value="thisyear" selected>Este ano</option><option value="all">Todo período</option><option value="custom">Período personalizado</option>
+        </select>
+      </div>
+      <div class="filter-group"><span class="filter-label">Categoria</span>
+        <select class="filter-select" id="an-cat" onchange="renderAnalysis()">
+          <option value="">Todas</option><option>Ensaio de Família</option><option>Newborn</option><option>Gestante</option><option>Aniversário</option><option>Batizado</option><option>Chá Revelação</option><option>Casamento</option><option>Outro</option><option>Álbum impresso</option><option>Fotolivro</option><option>Mini álbum</option><option>Álbum digital</option>
+        </select>
+      </div>
+      <div class="filter-group"><span class="filter-label">Status</span>
+        <select class="filter-select" id="an-status" onchange="renderAnalysis()">
+          <option value="">Todos</option><option value="Recebido">Recebido</option><option value="Pendente">Pendente</option><option value="Atrasado">Atrasado</option>
+        </select>
+      </div>
+      <div class="filter-group" id="custom-dates-group" style="display:none">
+        <span class="filter-label">De</span>
+        <input type="date" id="an-date-from" class="filter-select" style="border-radius:10px;padding:6px 12px;" onchange="renderAnalysis()">
+        <span class="filter-label">Até</span>
+        <input type="date" id="an-date-to" class="filter-select" style="border-radius:10px;padding:6px 12px;" onchange="renderAnalysis()">
+      </div>
+    </div>
+    <div class="analysis-grid">
+      <div class="analysis-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">Receita Total</div>
+        <div class="analysis-kpi amount-green" id="an-total-revenue">—</div>
+        <div class="analysis-sub" id="an-revenue-sub"></div>
+      </div>
+      <div class="analysis-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">Despesas Totais</div>
+        <div class="analysis-kpi amount-red" id="an-total-expenses">—</div>
+        <div class="analysis-sub" id="an-expenses-sub"></div>
+      </div>
+      <div class="analysis-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">Lucro Líquido</div>
+        <div class="analysis-kpi" id="an-profit">—</div>
+        <div class="analysis-sub" id="an-profit-sub"></div>
+      </div>
+      <div class="analysis-card">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">Ticket Médio</div>
+        <div class="analysis-kpi amount-blue" id="an-ticket">—</div>
+        <div class="analysis-sub" id="an-ticket-sub"></div>
+      </div>
+    </div>
+    <div class="two-col" style="margin-bottom:24px">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Receita por Categoria</div></div>
+        <div class="card-body"><div class="chart-bar-h" id="an-by-category"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Recebimentos por Status</div></div>
+        <div class="card-body" id="an-by-status"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Evolução Mensal — Receita vs Despesas</div>
+        <div style="display:flex;gap:16px;align-items:center">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--rose)"></div>Receita</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--rose-light)"></div>Despesas</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="an-monthly-chart" style="display:flex;align-items:flex-end;gap:6px;height:140px;padding:8px 0 0"></div>
+        <div id="an-monthly-labels" style="display:flex;gap:6px;margin-top:6px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METAS -->
+  <section class="page-content" id="page-metas">
+    <div class="stats-grid" id="metas-stats">
+      <!-- Resumo de metas aqui -->
+    </div>
+    <div class="table-wrap">
+      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px">Minhas Metas</div>
+        <button class="btn btn-primary" onclick="openModal('goal')">+ Nova Meta</button>
+      </div>
+      <div class="card-body" id="metas-list" style="padding:24px">
+        <!-- Lista de metas com progresso -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+
+  <div class="modal" id="modal-appointment" style="display:none">
+    <div class="modal-title" id="appt-modal-title">Novo Agendamento</div>
+    <div class="form-row">
+      <div class="form-group"><label>Nome do cliente</label><input type="text" id="appt-name" placeholder="Ex: Família Silva"></div>
+      <div class="form-group"><label>Tipo de sessão</label>
+        <select id="appt-type"><option>Ensaio de Família</option><option>Newborn</option><option>Gestante</option><option>Aniversário</option><option>Batizado</option><option>Chá Revelação</option><option>Casamento</option><option>Outro</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Data</label><input type="date" id="appt-date"></div>
+      <div class="form-group"><label>Horário</label><input type="time" id="appt-time" value="09:00"></div>
+    </div>
+    <div class="form-group"><label>Local</label><input type="text" id="appt-local" placeholder="Ex: Parque do Cocó"></div>
+    <div class="form-group"><label>Status do Evento</label>
+      <select id="appt-status"><option value="Confirmado">Confirmado</option><option value="Tentativo">Tentativo (aguardando)</option><option value="Realizado">Realizado</option><option value="Cancelado">Cancelado</option></select>
+    </div>
+    <div class="form-group"><label>Observações</label><textarea id="appt-notes" rows="2" placeholder="Preferências, estilo, detalhes..."></textarea></div>
+    <div style="border-top:1px solid var(--border);margin:20px 0 16px;"></div>
+    <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">Financeiro</div>
+    <div class="form-row">
+      <div class="form-group"><label>Valor total do serviço (R$)</label><input type="number" id="appt-value" placeholder="0,00" min="0" oninput="updateApptBalance()"></div>
+      <div class="form-group"><label>Entrada / sinal pago (R$)</label><input type="number" id="appt-deposit" placeholder="0,00" min="0" value="0" oninput="updateApptBalance()"></div>
+    </div>
+    <div class="form-group" id="appt-balance-row" style="background:var(--rose-pale);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text-muted);display:none">
+      Saldo restante (pendente): <strong id="appt-balance-label" style="color:var(--rose-dark)">R$ 0</strong>
+    </div>
+    <div class="form-group"><label>Status do pagamento</label>
+      <select id="appt-pay-status" onchange="updateApptBalance()">
+        <option value="Pendente">Pendente (sem pagamento)</option>
+        <option value="Parcial">Parcial (entrada paga)</option>
+        <option value="Recebido">Recebido (pago integralmente)</option>
+        <option value="Atrasado">Atrasado</option>
+        <option value="">Sem recebimento</option>
+      </select>
+    </div>
+    <div class="form-group" id="appt-due-date-row">
+      <label>Data de vencimento</label>
+      <input type="date" id="appt-due-date" placeholder="Quando o pagamento deve ser feito">
+    </div>
+    <input type="hidden" id="appt-edit-idx" value="-1">
+    <input type="hidden" id="appt-pay-link-id" value="">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAppointment()">Salvar agendamento</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-payment" style="display:none">
+    <div class="modal-title" id="pay-modal-title">Novo Recebimento</div>
+    <div class="form-group"><label>Cliente / Descrição</label><input type="text" id="pay-name" placeholder="Ex: Maria Oliveira"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Valor (R$)</label><input type="number" id="pay-value" placeholder="0,00" min="0"></div>
+      <div class="form-group"><label>Vencimento</label><input type="date" id="pay-date"></div>
+    </div>
+    <div class="form-group"><label>Categoria</label>
+      <select id="pay-cat"><option>Ensaio de Família</option><option>Newborn</option><option>Gestante</option><option>Aniversário</option><option>Batizado</option><option>Chá Revelação</option><option>Casamento</option><option>Álbum impresso</option><option>Fotolivro</option><option>Mini álbum</option><option>Álbum digital</option><option>Outro</option></select>
+    </div>
+    <div class="form-group"><label>Status</label>
+      <select id="pay-status"><option value="Recebido">Recebido</option><option value="Pendente">Pendente (a receber)</option><option value="Atrasado">Atrasado</option></select>
+    </div>
+    <input type="hidden" id="pay-edit-idx" value="-1">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="savePayment()">Salvar recebimento</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-expense" style="display:none">
+    <div class="modal-title" id="exp-modal-title">Nova Despesa</div>
+    <div class="form-group"><label>Descrição</label><input type="text" id="exp-name" placeholder="Ex: Gráfica - Álbum Família Silva"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Valor (R$)</label><input type="number" id="exp-value" placeholder="0,00" min="0"></div>
+      <div class="form-group"><label>Data</label><input type="date" id="exp-date"></div>
+    </div>
+    <div class="form-group"><label>Categoria</label>
+      <select id="exp-cat"><option>Equipamento</option><option>Marketing</option><option>Software/Assinaturas</option><option>Gráfica/Álbuns</option><option>Transporte</option><option>Alimentação</option><option>Outros</option></select>
+    </div>
+    <div class="form-group"><label>Meio de pagamento</label>
+      <select id="exp-type"><option>Pix</option><option>Cartão de Crédito</option><option>Débito</option><option>Dinheiro</option></select>
+    </div>
+    <input type="hidden" id="exp-edit-idx" value="-1">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveExpense()">Registrar despesa</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-album" style="display:none">
+    <div class="modal-title" id="alb-modal-title">Novo Álbum</div>
+    <div class="form-group"><label>Nome do cliente</label><input type="text" id="alb-name" placeholder="Ex: Família Silva"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Tipo de álbum</label>
+        <select id="alb-type"><option>Álbum impresso</option><option>Fotolivro</option><option>Mini álbum</option><option>Álbum digital</option></select>
+      </div>
+      <div class="form-group"><label>Sessão vinculada</label><select id="alb-appt-link"></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Etapa atual</label>
+        <select id="alb-status">
+          <option value="Aguardando seleção">Aguardando seleção</option>
+          <option value="Em diagramação">Em diagramação</option>
+          <option value="Aguardando aprovação">Aguardando aprovação</option>
+          <option value="Aprovado">Aprovado</option>
+          <option value="Enviado para gráfica">Enviado para gráfica</option>
+          <option value="Entregue">Entregue</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Previsão entrega</label><input type="date" id="alb-deadline"></div>
+    </div>
+    <div class="form-group"><label>Observações</label><textarea id="alb-notes" rows="2" placeholder="Tamanho, papel, número de páginas..."></textarea></div>
+    <div style="border-top:1px solid var(--border);margin:20px 0 16px;"></div>
+    <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">Financeiro do Álbum</div>
+    <div class="form-row">
+      <div class="form-group"><label>Valor total (R$)</label><input type="number" id="alb-value" placeholder="0,00" min="0" oninput="updateAlbBalance()"></div>
+      <div class="form-group"><label>Entrada / sinal (R$)</label><input type="number" id="alb-deposit" placeholder="0,00" min="0" value="0" oninput="updateAlbBalance()"></div>
+    </div>
+    <div class="form-group" id="alb-balance-row" style="background:var(--rose-pale);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text-muted);display:none">
+      Saldo restante: <strong id="alb-balance-label" style="color:var(--rose-dark)">R$ 0</strong>
+    </div>
+    <div class="form-group"><label>Status do pagamento</label>
+      <select id="alb-pay-status">
+        <option value="Pendente">Pendente (sem pagamento)</option>
+        <option value="Parcial">Parcial (entrada paga)</option>
+        <option value="Recebido">Recebido (pago integralmente)</option>
+        <option value="Atrasado">Atrasado</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Vencimento do saldo</label><input type="date" id="alb-due-date"></div>
+    <input type="hidden" id="alb-edit-idx" value="-1">
+    <input type="hidden" id="alb-pay-link-id" value="">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAlbum()">Salvar álbum</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-baixar" style="display:none">
+    <div class="modal-title">Baixar Conta</div>
+    <div style="margin-bottom:20px;padding:16px;background:var(--rose-pale);border-radius:12px;">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Recebimento de:</div>
+      <div id="baixar-nome" style="font-weight:500;font-size:16px;color:var(--text);margin-bottom:12px;">—</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Valor a receber:</div>
+      <div id="baixar-valor" style="font-weight:600;font-size:20px;color:var(--green);">—</div>
+    </div>
+    <div class="form-group">
+      <label>Data do recebimento</label>
+      <input type="date" id="baixar-date">
+    </div>
+    <input type="hidden" id="baixar-origem">
+    <input type="hidden" id="baixar-idx">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarBaixa()">Confirmar recebimento</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-recebimento-topo" style="display:none">
+    <div class="modal-title">Novo Recebimento</div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px;">Escolha o tipo de recebimento que deseja criar:</p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button class="btn btn-outline" style="text-align:left;padding:16px 24px;border-radius:12px;height:auto;" onclick="openModal('payment')">
+        <div style="font-weight:600;margin-bottom:4px;">Recebimento Avulso</div>
+        <div style="font-size:12px;opacity:0.8;">Para vendas extras, taxas ou serviços não agendados.</div>
+      </button>
+      <button class="btn btn-outline" style="text-align:left;padding:16px 24px;border-radius:12px;height:auto;" onclick="goTo('recebimentos', document.querySelectorAll('.nav-item')[4]);closeModal();">
+        <div style="font-weight:600;margin-bottom:4px;">Baixar Conta Existente</div>
+        <div style="font-size:12px;opacity:0.8;">Ir para a lista de recebimentos para dar baixa em uma conta pendente.</div>
+      </button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Fechar</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-goal" style="display:none">
+    <div class="modal-title" id="goal-modal-title">Nova Meta</div>
+    <div class="form-group"><label>Título da Meta</label><input type="text" id="goal-name" placeholder="Ex: Faturamento Março"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Tipo de Meta</label>
+        <select id="goal-type">
+          <option value="faturamento">Faturamento (R$)</option>
+          <option value="sessoes">Número de Sessões</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Valor Alvo</label><input type="number" id="goal-target" placeholder="Ex: 5000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Mês</label>
+        <select id="goal-month">
+          <option value="01">Janeiro</option><option value="02">Fevereiro</option><option value="03">Março</option><option value="04">Abril</option><option value="05">Maio</option><option value="06">Junho</option><option value="07">Julho</option><option value="08">Agosto</option><option value="09">Setembro</option><option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Ano</label><input type="number" id="goal-year" value="2026"></div>
+    </div>
+    <input type="hidden" id="goal-edit-idx" value="-1">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveGoal()">Salvar Meta</button>
+    </div>
+  </div>
+
+  <!-- GOOGLE CALENDAR MODAL -->
+  <div class="modal" id="modal-gcal" style="display:none">
+    <div class="modal-title" style="display:flex;align-items:center;gap:10px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#8a6060" stroke-width="1.8"/><line x1="16" y1="2" x2="16" y2="6" stroke="#8a6060" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="2" x2="8" y2="6" stroke="#8a6060" stroke-width="1.8" stroke-linecap="round"/><line x1="3" y1="10" x2="21" y2="10" stroke="#8a6060" stroke-width="1.8"/></svg>
+      Exportar para Google Calendar
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.6">Escolha um agendamento para abrir diretamente no Google Calendar. Ele vai criar o evento com todos os dados já preenchidos.</p>
+    <div style="display:flex;flex-direction:column;gap:6px;max-height:360px;overflow-y:auto" id="gcal-modal-list"></div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted)">
+      💡 Dica: ao salvar um novo agendamento, um botão "Abrir no Google Calendar" aparece automaticamente.
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Fechar</button>
+    </div>
+  </div>
+
+<div class="toast" id="toast">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <span id="toast-msg">Salvo com sucesso!</span>
+</div>
+
+<script>
+const today = new Date(); today.setHours(0,0,0,0);
+
+// PERSISTENCE
+const STORE_KEYS={appointments:'rosita_appointments',payments:'rosita_payments',expenses:'rosita_expenses',goals:'rosita_goals',albums:'rosita_albums',albumPayments:'rosita_albumPayments'};
+function loadData(key){try{const v=localStorage.getItem(key);return v?JSON.parse(v):[];}catch(e){return[];}}
+function saveAll(){try{localStorage.setItem(STORE_KEYS.appointments,JSON.stringify(appointments));localStorage.setItem(STORE_KEYS.payments,JSON.stringify(payments));localStorage.setItem(STORE_KEYS.expenses,JSON.stringify(expenses));localStorage.setItem(STORE_KEYS.goals,JSON.stringify(goals));localStorage.setItem(STORE_KEYS.albums,JSON.stringify(albums));localStorage.setItem(STORE_KEYS.albumPayments,JSON.stringify(albumPayments));}catch(e){console.warn('Erro ao salvar dados:',e);}}
+
+let appointments  = loadData(STORE_KEYS.appointments);
+let payments      = loadData(STORE_KEYS.payments);
+let expenses      = loadData(STORE_KEYS.expenses);
+let goals         = loadData(STORE_KEYS.goals);
+let albums        = loadData(STORE_KEYS.albums);
+let albumPayments = loadData(STORE_KEYS.albumPayments);
+
+// UTILS
+function toDateStr(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function formatDate(d){if(!d)return'—';const[y,m,day]=d.split('-');const months=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];return`${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;}
+function fmtBRL(v){return'R$ '+(v||0).toLocaleString('pt-BR');}
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function getMonthKey(s){return s?s.slice(0,7):'';}
+function currentMonthKey(){return`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`;}
+
+function filterByPeriod(arr,field,period,dateFrom,dateTo){
+  const cm=currentMonthKey();const[y,m]=cm.split('-').map(Number);
+  const getVal = (x) => typeof field === 'function' ? field(x) : x[field];
+  return arr.filter(item=>{
+    const val = getVal(item);
+    const dk=getMonthKey(val);
+    if(!period)return true;
+    if(period==='thismonth')return dk===cm;
+    if(period==='lastmonth'){const lm=new Date(y,m-2,1);const lk=`${lm.getFullYear()}-${String(lm.getMonth()+1).padStart(2,'0')}`;return dk===lk;}
+    if(period==='thisyear')return dk.startsWith(String(y));
+    if(period==='last3'){const c=new Date(y,m-4,1);return new Date(val)>=c;}
+    if(period==='last6'){const c=new Date(y,m-7,1);return new Date(val)>=c;}
+    if(period==='custom'){
+      if(dateFrom&&val<dateFrom)return false;
+      if(dateTo&&val>dateTo)return false;
+      return true;
+    }
+    return true;
+  });
+}
+
+function toggleCustomDates(){
+  const v=document.getElementById('an-period').value;
+  document.getElementById('custom-dates-group').style.display=v==='custom'?'flex':'none';
+  if(v==='custom'){
+    const today=new Date();
+    if(!document.getElementById('an-date-from').value){
+      const from=new Date(today.getFullYear(),today.getMonth()-2,1);
+      document.getElementById('an-date-from').value=toDateStr(from);
+    }
+    if(!document.getElementById('an-date-to').value){
+      document.getElementById('an-date-to').value=toDateStr(today);
+    }
+  }
+}
+
+// NAV
+function goTo(page,btn){
+  document.querySelectorAll('.page-content').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  if(btn)btn.classList.add('active');
+  const titles={dashboard:'Dashboard',agenda:'Calendário',compromissos:'Compromissos',albuns:'Controle de Álbuns',recebimentos:'Recebimentos',despesas:'Despesas',analise:'Análise Financeira',metas:'Metas'};
+  document.getElementById('page-title').textContent=titles[page]||page;
+  
+  const actions={
+    dashboard:'<button class="btn btn-outline" onclick="openRecebimentoTopo()">+ Recebimento</button><button class="btn btn-primary" onclick="openModal(\'appointment\')">+ Agendamento</button>',
+    agenda:'<button class="btn btn-primary" onclick="openModal(\'appointment\')">+ Novo agendamento</button>',
+    compromissos:'<button class="btn btn-primary" onclick="openModal(\'appointment\')">+ Novo agendamento</button>',
+    albuns:'<button class="btn btn-primary" onclick="openModal(\'album\')">+ Novo álbum</button>',
+    recebimentos:'<button class="btn btn-primary" onclick="openModal(\'payment\')">+ Novo recebimento</button>',
+    despesas:'<button class="btn btn-primary" onclick="openModal(\'expense\')">+ Nova despesa</button>',
+    analise:'',
+    metas:'<button class="btn btn-primary" onclick="openModal(\'goal\')">+ Nova meta</button>',
+  };
+  document.getElementById('topbar-actions').innerHTML=actions[page]||'';
+  if(page==='analise')renderAnalysis();
+  if(page==='recebimentos'){
+    const ids=['rec-filter-origem','rec-filter-status','rec-filter-cat','rec-filter-period'];
+    ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    renderPayments();
+  }
+  if(page==='despesas')renderExpenses();
+  if(page==='albuns')renderAlbums();
+  if(page==='metas')renderGoals();
+}
+
+function openRecebimentoTopo() {
+  document.getElementById('modal-overlay').classList.add('open');
+  document.querySelectorAll('.modal').forEach(m=>m.style.display='none');
+  document.getElementById('modal-recebimento-topo').style.display='block';
+}
+
+// CALENDAR
+const monthNames=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const sDotClass={Confirmado:'cal-dot-confirmed',Tentativo:'cal-dot-tentative',Realizado:'cal-dot-done',Cancelado:'cal-dot-cancelled'};
+const sApptClass={Confirmado:'appt-dot-confirmed',Tentativo:'appt-dot-tentative',Realizado:'appt-dot-done',Cancelado:'appt-dot-cancelled'};
+let calDate=new Date(today.getFullYear(),today.getMonth(),1);
+let selectedDate=null;
+
+function renderCalendar(){
+  document.getElementById('cal-month-label').textContent=`${monthNames[calDate.getMonth()]} ${calDate.getFullYear()}`;
+  const fd=new Date(calDate.getFullYear(),calDate.getMonth(),1).getDay();
+  const dim=new Date(calDate.getFullYear(),calDate.getMonth()+1,0).getDate();
+  const dip=new Date(calDate.getFullYear(),calDate.getMonth(),0).getDate();
+  const grid=document.getElementById('cal-days');grid.innerHTML='';
+  const total=Math.ceil((fd+dim)/7)*7;
+  for(let i=0;i<total;i++){
+    const div=document.createElement('div');div.className='cal-day';
+    let dn,ds,iso=false;
+    if(i<fd){dn=dip-fd+i+1;const d=new Date(calDate.getFullYear(),calDate.getMonth()-1,dn);ds=toDateStr(d);iso=true;div.classList.add('other-month');}
+    else if(i>=fd+dim){dn=i-fd-dim+1;const d=new Date(calDate.getFullYear(),calDate.getMonth()+1,dn);ds=toDateStr(d);iso=true;div.classList.add('other-month');}
+    else{dn=i-fd+1;ds=toDateStr(new Date(calDate.getFullYear(),calDate.getMonth(),dn));}
+    if(ds===toDateStr(today))div.classList.add('today');
+    if(selectedDate===ds)div.classList.add('selected');
+    const ne=document.createElement('div');ne.className='cal-day-num';ne.textContent=dn;div.appendChild(ne);
+    const da=appointments.filter(a=>a.date===ds);
+    if(da.length>0){const de=document.createElement('div');de.className='cal-dots';da.slice(0,3).forEach(a=>{const dot=document.createElement('div');dot.className=`cal-dot ${sDotClass[a.status]||''}`;de.appendChild(dot);});div.appendChild(de);}
+    div.addEventListener('click',()=>selectDay(ds));
+    grid.appendChild(div);
+  }
+}
+
+function selectDay(ds){
+  selectedDate=ds;renderCalendar();
+  const[y,m,d]=ds.split('-');const dt=new Date(parseInt(y),parseInt(m)-1,parseInt(d));
+  const dn=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+  document.getElementById('selected-day-title').textContent=`${dn[dt.getDay()]}, ${parseInt(d)} de ${monthNames[parseInt(m)-1]}`;
+  const da=appointments.filter(a=>a.date===ds).sort((a,b)=>a.time.localeCompare(b.time));
+  const c=document.getElementById('selected-day-appts');
+  if(da.length===0){document.getElementById('selected-day-sub').textContent='Nenhum compromisso';c.innerHTML=`<div class="no-appts">Sem compromissos neste dia<br><button class="btn btn-outline btn-sm" style="margin-top:12px" onclick="openModal('appointment')">+ Agendar</button></div>`;}
+  else{
+    document.getElementById('selected-day-sub').textContent=`${da.length} compromisso${da.length>1?'s':''}`;
+    c.innerHTML=da.map((a,idx)=> {
+      const originalIdx = appointments.indexOf(a);
+      return `<div class="appt-item" style="cursor:pointer" onclick="editAppt(${originalIdx})"><div class="appt-time">${a.time}</div><div class="appt-info"><div class="appt-name">${a.name}</div><div class="appt-detail">${a.type} · ${a.local}</div>${a.notes?`<div class="appt-detail" style="color:var(--rose-dark);margin-top:2px">${a.notes}</div>`:''}</div><div class="appt-status-dot ${sApptClass[a.status]||''}"></div></div>`;
+    }).join('');
+  }
+}
+
+function changeMonth(dir){
+  if(dir===0)calDate=new Date(today.getFullYear(),today.getMonth(),1);
+  else calDate=new Date(calDate.getFullYear(),calDate.getMonth()+dir,1);
+  renderCalendar();
+}
+
+// APPOINTMENTS
+function renderAppointments(){
+  const badge={Confirmado:'badge-confirmed',Tentativo:'badge-tentative',Realizado:'badge-done',Cancelado:'badge-cancelled'};
+  const sorted=appointments.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById('appt-table-body').innerHTML=sorted.map(a=>{
+    const i=appointments.indexOf(a);
+    return`<tr><td><strong>${a.name}</strong></td><td>${a.type}</td><td>${formatDate(a.date)}</td><td>${a.time}</td><td>${a.local||'—'}</td><td><span class="badge ${badge[a.status]}">${a.status}</span></td><td><div class="action-cell"><button class="btn-ghost" onclick="editAppt(${i})">Editar</button><button class="btn-ghost btn-danger" onclick="deleteAppt(${i})">Excluir</button></div></td></tr>`;
+  }).join('');
+  const ns=toDateStr(today);
+  document.getElementById('stat-confirmed').textContent=appointments.filter(a=>a.status==='Confirmado'&&a.date>=ns).length;
+  document.getElementById('stat-tentative').textContent=appointments.filter(a=>a.status==='Tentativo').length;
+  document.getElementById('stat-done').textContent=appointments.filter(a=>a.status==='Realizado').length;
+}
+
+function editAppt(i){
+  const a=appointments[i];
+  document.getElementById('appt-edit-idx').value=i;
+  document.getElementById('appt-modal-title').textContent='Editar Agendamento';
+  document.getElementById('appt-name').value=a.name;
+  document.getElementById('appt-type').value=a.type;
+  document.getElementById('appt-date').value=a.date;
+  document.getElementById('appt-time').value=a.time;
+  document.getElementById('appt-local').value=a.local;
+  document.getElementById('appt-status').value=a.status;
+  document.getElementById('appt-notes').value=a.notes;
+  
+  const linked=a.linkId?payments.find(p=>p.linkId===a.linkId):null;
+  document.getElementById('appt-value').value=linked?linked.totalValue:(a.value||'');
+  document.getElementById('appt-deposit').value=linked?linked.deposit:(a.deposit||0);
+  document.getElementById('appt-pay-status').value=linked?linked.status:(a.payStatus||'Pendente');
+  document.getElementById('appt-pay-link-id').value=a.linkId||'';
+  
+  const linkedBal=a.linkId?payments.find(p=>p.linkId===a.linkId+'-bal'):null;
+  const dueDateVal=(linkedBal?.dueDate)||(linked?.dueDate)||'';
+  document.getElementById('appt-due-date').value=dueDateVal;
+  
+  updateApptBalance();
+  openModal('appointment');
+}
+
+function deleteAppt(i){
+  if(!confirm('Excluir este compromisso?'))return;
+  appointments.splice(i,1);saveAll();renderAppointments();renderCalendar();renderDashUpcoming();showToast('Compromisso excluído!');
+}
+
+function updateApptBalance(){
+  const total=parseFloat(document.getElementById('appt-value').value)||0;
+  const dep=parseFloat(document.getElementById('appt-deposit').value)||0;
+  const bal=total-dep;
+  const row=document.getElementById('appt-balance-row');
+  if(total>0&&dep>0&&dep<total){row.style.display='block';document.getElementById('appt-balance-label').textContent=fmtBRL(bal);}
+  else{row.style.display='none';}
+  const payStatus=document.getElementById('appt-pay-status').value;
+  const dueDateRow=document.getElementById('appt-due-date-row');
+  if(dueDateRow){dueDateRow.style.display=(payStatus==='Pendente'||payStatus==='Parcial'||payStatus==='Atrasado')?'block':'none';}
+}
+
+function saveAppointment(){
+  const name=document.getElementById('appt-name').value;
+  const type=document.getElementById('appt-type').value;
+  const date=document.getElementById('appt-date').value;
+  const time=document.getElementById('appt-time').value;
+  const local=document.getElementById('appt-local').value;
+  const status=document.getElementById('appt-status').value;
+  const notes=document.getElementById('appt-notes').value;
+  const totalValue=parseFloat(document.getElementById('appt-value').value)||0;
+  const deposit=parseFloat(document.getElementById('appt-deposit').value)||0;
+  const payStatus=document.getElementById('appt-pay-status').value;
+  const payLinkId=document.getElementById('appt-pay-link-id').value;
+  const dueDate=document.getElementById('appt-due-date').value||'';
+  const idx=parseInt(document.getElementById('appt-edit-idx').value);
+  if(!name||!date){alert('Preencha o nome e a data');return;}
+
+  const linkId=payLinkId||(idx>=0&&appointments[idx].linkId?appointments[idx].linkId:('appt-'+Date.now()));
+  const obj={name,type,date,time,local,status,notes,value:totalValue,deposit,payStatus,linkId};
+
+  const isParcial=deposit>0&&deposit<totalValue;
+  const effectivePayValue=isParcial?deposit:totalValue;
+  const balanceValue=isParcial?totalValue-deposit:0;
+  const effectiveStatus=isParcial?'Parcial':payStatus;
+
+  if(idx>=0){
+    appointments[idx]=obj;
+    if(totalValue>0&&payStatus!==''){
+      const pi=payments.findIndex(p=>p.linkId===linkId);
+      if(pi>=0){payments[pi]={...payments[pi],name,cat:type,date,value:effectivePayValue,totalValue,deposit,status:effectiveStatus,dueDate};}
+      else if(payStatus!==''){payments.unshift({name,cat:type,date,value:effectivePayValue,totalValue,deposit,status:effectiveStatus,linkId,dueDate});}
+    }
+  } else {
+    appointments.push(obj);
+    if(totalValue>0&&payStatus!==''){
+      payments.unshift({name,cat:type,date,value:effectivePayValue,totalValue,deposit,status:effectiveStatus,linkId,dueDate});
+    }
+  }
+  if(isParcial&&balanceValue>0){
+    const existingBalance=payments.find(p=>p.linkId===linkId&&p.isBalance);
+    if(!existingBalance){
+      payments.unshift({name,cat:type,date,value:balanceValue,totalValue,deposit,status:'Pendente',linkId:linkId+'-bal',isBalance:true,balanceOf:linkId,dueDate});
+    } else {
+      existingBalance.dueDate=dueDate;
+    }
+  }
+
+  renderAppointments();renderCalendar();renderDashUpcoming();renderPayments();saveAll();closeModal();
+  let toast=idx>=0?'Agendamento atualizado!':'Agendamento salvo!';
+  if(totalValue>0&&payStatus!==''){
+    if(isParcial)toast+=` · Entrada de ${fmtBRL(deposit)} registrada. Saldo de ${fmtBRL(balanceValue)} em pendências.`;
+    else toast+=` · Recebimento ${effectiveStatus.toLowerCase()} criado!`;
+  }
+  showToast(toast);
+}
+
+// DASHBOARD UPCOMING
+function renderDashUpcoming(){
+  const ns=toDateStr(today);
+  const upcoming=appointments.filter(a=>a.date>=ns&&a.status!=='Cancelado').sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time)).slice(0,3);
+  const cm=currentMonthKey();
+  document.getElementById('stat-sessions').textContent=appointments.filter(a=>getMonthKey(a.date)===cm).length;
+  const year=today.getFullYear();
+  const monthNamesFull=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const monthlyTotal=[...payments,...albumPayments].filter(p=>getMonthKey(p.dueDate || p.date)===cm&&(p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value,0);
+  document.getElementById('dash-annual-total').textContent=fmtBRL(monthlyTotal);
+  document.getElementById('dash-year-label').textContent=monthNamesFull[today.getMonth()];
+  const cmP=[...payments,...albumPayments].filter(p=>getMonthKey(p.dueDate || p.date)===cm);
+  const received=cmP.filter(p=>p.status==='Recebido'||p.status==='Parcial').reduce((s,p)=>s+p.value,0);
+  const pending=cmP.filter(p=>p.status==='Pendente'||p.status==='Atrasado').reduce((s,p)=>s+p.value,0);
+  document.getElementById('dash-received').textContent=fmtBRL(received);
+  document.getElementById('dash-pending').textContent=fmtBRL(pending);
+  document.getElementById('dash-received-trend').textContent=`${cmP.filter(p=>p.status==='Recebido'||p.status==='Parcial').length} recebimento(s)`;
+  document.getElementById('dash-pending-trend').textContent=`${cmP.filter(p=>p.status==='Pendente'||p.status==='Atrasado').length} pendente(s)`;
+  
+  const mLabels=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const md=mLabels.map((_,mi)=>{const k=`${year}-${String(mi+1).padStart(2,'0')}`;return [...payments, ...albumPayments].filter(p=>getMonthKey(p.dueDate || p.date)===k&&(p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value,0);});
+  const maxV=Math.max(...md,1);const cm2=today.getMonth();
+  document.getElementById('dash-chart').innerHTML=md.map((v,i)=>`<div class="bar-wrap" title="${mLabels[i]}: ${fmtBRL(v)}"><div class="bar${i===cm2?' highlight':''}" style="height:${Math.max(4,Math.round(v/maxV*100))}%"></div><div class="bar-label">${mLabels[i]}</div></div>`).join('');
+  
+  const badge={Confirmado:'badge-confirmed',Tentativo:'badge-tentative',Realizado:'badge-done'};
+  if(upcoming.length===0){
+    document.getElementById('dash-upcoming').innerHTML='<div style="padding:20px 0;text-align:center;color:var(--text-muted);font-size:13px">Nenhuma sessão agendada 🌿</div>';
+    document.getElementById('dash-sub').textContent='Nenhuma sessão agendada para o futuro';
+  }else{
+    document.getElementById('dash-upcoming').innerHTML=upcoming.map(a=>{
+      const linked=a.linkId?payments.find(p=>p.linkId===a.linkId):null;
+      const payDot=linked?(linked.status==='Recebido'?'var(--green)':linked.status==='Atrasado'?'var(--red)':'var(--gold)'):'';
+      const payInfo=linked?`<span style="font-size:11px;margin-left:4px;color:${payDot==='var(--green)'?'#5a8a6a':payDot==='var(--red)'?'var(--red)':'#c49a30'}">· ${linked.status} ${fmtBRL(linked.value)}</span>`:(a.value>0?`<span style="font-size:11px;margin-left:4px;color:#c49a30">· Pendente ${fmtBRL(a.value)}</span>`:'');
+      return`<div class="payment-item"><div class="payment-info"><div class="payment-dot" style="background:${a.status==='Confirmado'?'var(--blue)':a.status==='Tentativo'?'var(--gold)':'var(--green)'}"></div><div><div class="payment-name">${a.name}${payInfo}</div><div class="payment-date">${a.type} · ${formatDate(a.date)} às ${a.time}</div></div></div><span class="badge ${badge[a.status]||''}">${a.status}</span></div>`;
+    }).join('');
+    document.getElementById('dash-sub').textContent=`Próxima sessão: ${upcoming[0].name} em ${formatDate(upcoming[0].date)}`;
+  }
+}
+
+// PAYMENTS
+function renderPayments(){
+  const badge={Recebido:'badge-received',Pendente:'badge-pending',Atrasado:'badge-overdue',Parcial:'badge-partial'};
+  const sf=document.getElementById('rec-filter-status')?.value||'';
+  const cf=document.getElementById('rec-filter-cat')?.value||'';
+  const pf=document.getElementById('rec-filter-period')?.value||'';
+  const of=document.getElementById('rec-filter-origem')?.value||'';
+
+  const todayStr = toDateStr(today);
+  const sessaoItems=payments.map(p=>{
+    let status = p.status;
+    if((status==='Pendente'||status==='Parcial') && p.dueDate && p.dueDate < todayStr) status = 'Atrasado';
+    return {...p, status, _origem:p.linkId?.startsWith('avulso-')?'Avulso':'Sessão'};
+  });
+  const albumItems=albumPayments.map(p=>{
+    let status = p.status;
+    if((status==='Pendente'||status==='Parcial') && p.dueDate && p.dueDate < todayStr) status = 'Atrasado';
+    return {...p, status, _origem:'Álbum'};
+  });
+  let all=[...sessaoItems,...albumItems].sort((a,b)=>{
+    const da = a.dueDate || a.date;
+    const db = b.dueDate || b.date;
+    return db.localeCompare(da);
+  });
+
+  if(of)all=all.filter(p=>p._origem===of);
+  if(sf)all=all.filter(p=>p.status===sf);
+  if(cf){
+    if(cf==='Álbum')all=all.filter(p=>p._origem==='Álbum');
+    else all=all.filter(p=>p.cat===cf);
+  }
+  all=filterByPeriod(all, (p => p.dueDate || p.date), pf);
+
+  const receivedTotal = all.filter(p=>(p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value,0);
+  const pendingTotal = all.filter(p=>p.status==='Pendente').reduce((s,p)=>s+p.value,0);
+  const overdueTotal = all.filter(p=>p.status==='Atrasado').reduce((s,p)=>s+p.value,0);
+
+  document.getElementById('rec-total-received').textContent=fmtBRL(receivedTotal);
+  document.getElementById('rec-total-pending').textContent=fmtBRL(pendingTotal);
+  document.getElementById('rec-total-overdue').textContent=fmtBRL(overdueTotal);
+  document.getElementById('rec-received-sub').textContent=`Total da lista filtrada`;
+  document.getElementById('rec-pending-sub').textContent=`Total da lista filtrada`;
+  document.getElementById('rec-overdue-sub').textContent=`Total da lista filtrada`;
+
+  document.getElementById('payments-body').innerHTML=all.map(p=>{
+    const isAlbum=p._origem==='Álbum';
+    let vinculoCell='<span style="font-size:12px;color:var(--text-light)">—</span>';
+    if(isAlbum){
+      const linkedAlb=albums.find(a=>a.linkId===p.linkId||(p.isBalance&&a.linkId===p.linkId?.replace('-bal','')));
+      if(linkedAlb)vinculoCell=`<span style="font-size:12px;color:var(--blue);cursor:pointer" onclick="goTo('albuns',document.querySelectorAll('.nav-item')[3])">📒 ${linkedAlb.type}${p.isBalance?' (saldo)':''}</span>`;
+    } else if(p._origem==='Sessão') {
+      const linkedAppt=p.linkId?appointments.find(a=>a.linkId===p.linkId):null;
+      if(linkedAppt)vinculoCell=`<span style="font-size:12px;color:var(--blue);cursor:pointer" onclick="goTo('compromissos',document.querySelectorAll('.nav-item')[2])">📅 ${formatDate(linkedAppt.date)} ${linkedAppt.time}</span>`;
+    }
+    const origemBadge=p._origem==='Álbum'
+      ?`<span style="font-size:11px;background:#eef0f8;color:#5060a8;padding:2px 8px;border-radius:100px;font-weight:500">Álbum</span>`
+      :p._origem==='Avulso'
+        ?`<span style="font-size:11px;background:#f8f2e6;color:#c9a86c;padding:2px 8px;border-radius:100px;font-weight:500">Avulso</span>`
+        :`<span style="font-size:11px;background:var(--rose-pale);color:var(--rose-dark);padding:2px 8px;border-radius:100px;font-weight:500">Sessão</span>`;
+
+    const sessIdx=!isAlbum?payments.findIndex(x=>(x.linkId===p.linkId||(!x.linkId&&!p.linkId))&&x.name===p.name&&x.date===p.date&&x.value===p.value):-1;
+    const albIdx=isAlbum?albumPayments.findIndex(x=>(x.linkId===p.linkId||(!x.linkId&&!p.linkId))&&x.name===p.name&&x.date===p.date&&x.value===p.value):-1;
+
+    const editBtn=isAlbum?`<button class="btn-ghost" onclick="editAlbumPayment(${albIdx})">Editar</button>`:`<button class="btn-ghost" onclick="editPayment(${sessIdx})">Editar</button>`;
+    const delBtn=isAlbum?`<button class="btn-ghost btn-danger" onclick="deleteAlbumPayment(${albIdx})">Excluir</button>`:`<button class="btn-ghost btn-danger" onclick="deletePayment(${sessIdx})">Excluir</button>`;
+
+    const isPending=p.status==='Pendente'||p.status==='Atrasado';
+    const receberBtn=isPending?(isAlbum?`<button class="btn-ghost" style="color:var(--green)" onclick="receberConta('album',${albIdx})">✓ Receber</button>`:`<button class="btn-ghost" style="color:var(--green)" onclick="receberConta('sessao',${sessIdx})">✓ Receber</button>`):'';
+
+    return`<tr><td><strong>${p.name}</strong></td><td>${p.cat}</td><td>${origemBadge}</td><td>${p.dueDate?formatDate(p.dueDate):'—'}</td><td><strong>${fmtBRL(p.value)}</strong></td><td><span class="badge ${badge[p.status]||'badge-pending'}">${p.status}</span></td><td>${vinculoCell}</td><td><div class="action-cell">${receberBtn}${editBtn}${delBtn}</div></td></tr>`;
+  }).join('');
+}
+
+function editPayment(i){
+  const p=payments[i];
+  document.getElementById('pay-edit-idx').value=i;
+  document.getElementById('pay-modal-title').textContent='Editar Recebimento';
+  document.getElementById('pay-name').value=p.name;
+  document.getElementById('pay-value').value=p.value;
+  document.getElementById('pay-date').value=p.dueDate || p.date;
+  document.getElementById('pay-cat').value=p.cat;
+  document.getElementById('pay-status').value=p.status;
+  openModal('payment');
+}
+
+function savePayment(){
+  const name=document.getElementById('pay-name').value;
+  const value=parseFloat(document.getElementById('pay-value').value);
+  const date=document.getElementById('pay-date').value;
+  const cat=document.getElementById('pay-cat').value;
+  const status=document.getElementById('pay-status').value;
+  const idx=parseInt(document.getElementById('pay-edit-idx').value);
+  if(!name||!value)return;
+  // A data editada no formulário (pay-date) agora é salva como dueDate
+  const obj={name,value,date:idx>=0?payments[idx].date:toDateStr(today),dueDate:date,cat,status,linkId:idx>=0?payments[idx].linkId:('avulso-'+Date.now())};
+  if(idx>=0)payments[idx]=obj;else payments.unshift(obj);
+  renderPayments();renderDashUpcoming();saveAll();closeModal();showToast(idx>=0?'Recebimento atualizado!':'Recebimento registrado!');
+}
+
+function deletePayment(i){
+  if(!confirm('Excluir este recebimento?'))return;
+  payments.splice(i,1);saveAll();renderPayments();renderDashUpcoming();showToast('Recebimento excluído!');
+}
+
+function deleteAlbumPayment(i){
+  if(!confirm('Excluir este pagamento de álbum?'))return;
+  albumPayments.splice(i,1);saveAll();renderPayments();renderDashUpcoming();showToast('Pagamento de álbum excluído!');
+}
+
+// EXPENSES
+function renderExpenses(){
+  const cf=document.getElementById('exp-filter-cat')?.value||'';
+  const pf=document.getElementById('exp-filter-period')?.value||'';
+  let f=expenses.slice();
+  if(cf)f=f.filter(e=>e.cat===cf);
+  f=filterByPeriod(f,'date',pf);
+  document.getElementById('expenses-body').innerHTML=f.map(e=>{
+    const i=expenses.indexOf(e);
+    return`<tr><td><strong>${e.name}</strong></td><td>${e.cat}</td><td>${formatDate(e.date)}</td><td><strong>${fmtBRL(e.value)}</strong></td><td>${e.type}</td><td><div class="action-cell"><button class="btn-ghost" onclick="editExpense(${i})">Editar</button><button class="btn-ghost btn-danger" onclick="deleteExpense(${i})">Excluir</button></div></td></tr>`;
+  }).join('');
+  const cm=currentMonthKey();const cmE=expenses.filter(e=>getMonthKey(e.date)===cm);
+  const totalE=cmE.reduce((s,e)=>s+e.value,0);
+  const totalR=[...payments,...albumPayments].filter(p=>getMonthKey(p.date)===cm&&(p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value,0);
+  document.getElementById('exp-total-month').textContent=fmtBRL(totalE);
+  document.getElementById('exp-count-month').textContent=`${cmE.length} lançamento(s)`;
+  document.getElementById('exp-profit').textContent=fmtBRL(totalR-totalE);
+  const byCat={};expenses.forEach(e=>{byCat[e.cat]=(byCat[e.cat]||0)+e.value;});
+  const top=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  if(top){document.getElementById('exp-top-cat').textContent=top[0];document.getElementById('exp-top-val').textContent=fmtBRL(top[1]);}
+}
+
+function editExpense(i){
+  const e=expenses[i];
+  document.getElementById('exp-edit-idx').value=i;
+  document.getElementById('exp-modal-title').textContent='Editar Despesa';
+  document.getElementById('exp-name').value=e.name;document.getElementById('exp-cat').value=e.cat;
+  document.getElementById('exp-value').value=e.value;document.getElementById('exp-date').value=e.date;
+  document.getElementById('exp-type').value=e.type;
+  openModal('expense');
+}
+
+function saveExpense(){
+  const name=document.getElementById('exp-name').value;const cat=document.getElementById('exp-cat').value;
+  const value=parseFloat(document.getElementById('exp-value').value);const date=document.getElementById('exp-date').value;
+  const type=document.getElementById('exp-type').value;const idx=parseInt(document.getElementById('exp-edit-idx').value);
+  if(!name||!value)return;const obj={name,cat,date,value,type};
+  if(idx>=0)expenses[idx]=obj;else expenses.unshift(obj);
+  renderExpenses();saveAll();closeModal();showToast(idx>=0?'Despesa atualizada!':'Despesa registrada!');
+}
+
+function deleteExpense(i){
+  if(!confirm('Excluir esta despesa?'))return;
+  expenses.splice(i,1);saveAll();renderExpenses();showToast('Despesa excluído!');
+}
+
+// ALBUMS
+const albStatusBadge={ 'Aguardando seleção':'badge-tentative', 'Em diagramação':'badge-confirmed', 'Aguardando aprovação':'badge-tentative', 'Aprovado':'badge-received', 'Enviado para gráfica':'badge-partial', 'Entregue':'badge-done' };
+function updateAlbBalance(){
+  const total=parseFloat(document.getElementById('alb-value').value)||0;
+  const dep=parseFloat(document.getElementById('alb-deposit').value)||0;
+  const bal=total-dep;
+  const row=document.getElementById('alb-balance-row');
+  if(total>0&&dep>0&&dep<total){row.style.display='block';document.getElementById('alb-balance-label').textContent=fmtBRL(bal);}
+  else{row.style.display='none';}
+}
+
+function renderAlbums(){
+  const sf=document.getElementById('alb-filter-status')?.value||'';
+  const tf=document.getElementById('alb-filter-type')?.value||'';
+  const pf=document.getElementById('alb-filter-pay')?.value||'';
+  let f=albums.slice();
+  if(sf)f=f.filter(a=>a.status===sf);
+  if(tf)f=f.filter(a=>a.type===tf);
+  if(pf)f=f.filter(a=>a.payStatus===pf);
+  const payBadge={Recebido:'badge-received',Pendente:'badge-pending',Atrasado:'badge-overdue',Parcial:'badge-partial'};
+
+  document.getElementById('albums-body').innerHTML=f.map(a=>{
+    const i=albums.indexOf(a);
+    const linkedAppt=a.apptIdx!=null?appointments[a.apptIdx]:null;
+    const apptCell=linkedAppt?`<span style="font-size:12px;color:var(--blue);cursor:pointer" onclick="goTo('compromissos',document.querySelectorAll('.nav-item')[2])">📅 ${linkedAppt.name} · ${formatDate(linkedAppt.date)}</span>`:`<span style="font-size:12px;color:var(--text-light)">—</span>`;
+    let finCell='—';
+    if(a.totalValue>0){
+      const isParcial=a.deposit>0&&a.deposit<a.totalValue;
+      const balance=a.totalValue-(a.deposit||0);
+      finCell=`<span class="badge ${payBadge[a.payStatus]||'badge-pending'}">${a.payStatus||'Pendente'}</span>`;
+      if(isParcial)finCell+=`<div style="font-size:11px;color:var(--text-muted);margin-top:3px">Entrada ${fmtBRL(a.deposit)} · Saldo ${fmtBRL(balance)}</div>`;
+      else finCell+=`<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${fmtBRL(a.totalValue)}</div>`;
+    }
+    return`<tr><td><strong>${a.name}</strong>${a.notes?`<div style="font-size:11.5px;color:var(--text-muted);margin-top:2px">${a.notes}</div>`:''}</td><td>${a.type}</td><td>${apptCell}</td><td><span class="badge ${albStatusBadge[a.status]||'badge-pending'}">${a.status}</span></td><td><strong>${a.totalValue>0?fmtBRL(a.totalValue):'—'}</strong></td><td>${finCell}</td><td>${a.deadline?formatDate(a.deadline):'—'}</td><td><div class="action-cell"><button class="btn-ghost" onclick="editAlbum(${i})">Editar</button><button class="btn-ghost btn-danger" onclick="deleteAlbum(${i})">Excluir</button></div></td></tr>`;
+  }).join('');
+  
+  const cm = currentMonthKey();
+  const albR = albumPayments.filter(p=>getMonthKey(p.date)===cm && p.status==='Recebido').reduce((s,p)=>s+p.value,0);
+  const albP = albumPayments.filter(p=>p.status==='Pendente'||p.status==='Parcial').reduce((s,p)=>s+p.value,0);
+  document.getElementById('alb-stat-aprovacao').textContent=albums.filter(a=>a.status==='Aguardando aprovação').length;
+  document.getElementById('alb-stat-receita').textContent=fmtBRL(albR);
+  document.getElementById('alb-stat-receita-sub').textContent='No mês atual';
+  document.getElementById('alb-stat-pendente').textContent=fmtBRL(albP);
+  document.getElementById('alb-stat-pendente-sub').textContent='Total em aberto';
+}
+
+function editAlbum(i){
+  const a=albums[i];
+  document.getElementById('alb-edit-idx').value=i;
+  document.getElementById('alb-modal-title').textContent='Editar Álbum';
+  document.getElementById('alb-name').value=a.name;
+  document.getElementById('alb-type').value=a.type;
+  document.getElementById('alb-appt-link').value=a.apptIdx!=null?a.apptIdx:'';
+  document.getElementById('alb-status').value=a.status;
+  document.getElementById('alb-deadline').value=a.deadline;
+  document.getElementById('alb-notes').value=a.notes;
+  document.getElementById('alb-value').value=a.totalValue;
+  document.getElementById('alb-deposit').value=a.deposit||0;
+  document.getElementById('alb-pay-status').value=a.payStatus;
+  document.getElementById('alb-due-date').value=a.dueDate||'';
+  document.getElementById('alb-pay-link-id').value=a.linkId||'';
+  updateAlbBalance();
+  openModal('album');
+}
+
+function saveAlbum(){
+  const name=document.getElementById('alb-name').value;
+  const type=document.getElementById('alb-type').value;
+  const apptIdx=document.getElementById('alb-appt-link').value;
+  const status=document.getElementById('alb-status').value;
+  const deadline=document.getElementById('alb-deadline').value;
+  const notes=document.getElementById('alb-notes').value;
+  const totalValue=parseFloat(document.getElementById('alb-value').value)||0;
+  const deposit=parseFloat(document.getElementById('alb-deposit').value)||0;
+  const payStatus=document.getElementById('alb-pay-status').value;
+  const dueDate=document.getElementById('alb-due-date').value;
+  const payLinkId=document.getElementById('alb-pay-link-id').value;
+  const idx=parseInt(document.getElementById('alb-edit-idx').value);
+  if(!name)return;
+  const linkId=payLinkId||(idx>=0&&albums[idx].linkId?albums[idx].linkId:('alb-'+Date.now()));
+  const obj={name,type,apptIdx:apptIdx!==''?parseInt(apptIdx):null,status,deadline,notes,totalValue,deposit,payStatus,linkId,dueDate};
+  if(idx>=0)albums[idx]=obj;else albums.push(obj);
+  
+  const isParcial=deposit>0&&deposit<totalValue;
+  const effectivePayValue=isParcial?deposit:totalValue;
+  const effectiveStatus=isParcial?'Parcial':payStatus;
+  if(totalValue>0){
+    const pi=albumPayments.findIndex(p=>p.linkId===linkId);
+    if(pi>=0)albumPayments[pi]={...albumPayments[pi],name,cat:type,value:effectivePayValue,status:effectiveStatus,dueDate};
+    else albumPayments.unshift({name,cat:type,date:toDateStr(today),value:effectivePayValue,status:effectiveStatus,linkId,dueDate});
+    if(isParcial){
+      const balId=linkId+'-bal';
+      const bi=albumPayments.findIndex(p=>p.linkId===balId);
+      if(bi>=0)albumPayments[bi]={...albumPayments[bi],name,cat:type,value:totalValue-deposit,dueDate};
+      else albumPayments.unshift({name,cat:type,date:toDateStr(today),value:totalValue-deposit,status:'Pendente',linkId:balId,isBalance:true,dueDate});
+    }
+  }
+  renderAlbums();saveAll();closeModal();showToast(idx>=0?'Álbum atualizado!':'Álbum registrado!');
+}
+
+function deleteAlbum(i){
+  if(!confirm('Excluir este álbum?'))return;
+  albums.splice(i,1);saveAll();renderAlbums();showToast('Álbum excluído!');
+}
+
+// ANALYSIS
+function renderAnalysis(){
+  const period=document.getElementById('an-period')?.value||'thisyear';
+  const catF=document.getElementById('an-cat')?.value||'';
+  const statusF=document.getElementById('an-status')?.value||'';
+  const dateFrom=period==='custom'?(document.getElementById('an-date-from')?.value||''):'';
+  const dateTo=period==='custom'?(document.getElementById('an-date-to')?.value||''):'';
+  let fp=filterByPeriod(payments,'date',period,dateFrom,dateTo);
+  let fpAlb=filterByPeriod(albumPayments,'date',period,dateFrom,dateTo);
+  if(catF){fp=fp.filter(p=>p.cat===catF);fpAlb=fpAlb.filter(p=>p.cat===catF);}
+  if(statusF){fp=fp.filter(p=>p.status===statusF);fpAlb=fpAlb.filter(p=>p.status===statusF);}
+  const fpAll=[...fp,...fpAlb];
+  let fe=filterByPeriod(expenses,'date',period,dateFrom,dateTo);
+  // Receita = apenas pagamentos efetivamente recebidos (Recebido/Parcial), sem contar saldos pendentes (isBalance)
+  const fpReceived=fpAll.filter(p=>(p.status==='Recebido'||p.status==='Parcial')&&!p.isBalance);
+  const totalRev=fpReceived.reduce((s,p)=>s+p.value,0);
+  const totalExp=fe.reduce((s,e)=>s+e.value,0);
+  const profit=totalRev-totalExp;
+  // Ticket médio: apenas recebimentos principais (sem duplicar entrada+saldo como dois tickets)
+  const fpMain=fpAll.filter(p=>!p.isBalance);
+  const ticketValues=fpMain.map(p=>p.totalValue||p.value);
+  const ticket=ticketValues.length?Math.round(ticketValues.reduce((s,v)=>s+v,0)/ticketValues.length):0;
+  document.getElementById('an-total-revenue').textContent=fmtBRL(totalRev);
+  document.getElementById('an-revenue-sub').textContent=`${fpReceived.length} recebimento(s)`;
+  document.getElementById('an-total-expenses').textContent=fmtBRL(totalExp);
+  document.getElementById('an-expenses-sub').textContent=`${fe.length} lançamento(s)`;
+  document.getElementById('an-profit').textContent=fmtBRL(profit);
+  document.getElementById('an-profit').className='analysis-kpi '+(profit>=0?'amount-green':'amount-red');
+  document.getElementById('an-profit-sub').textContent=profit>=0?'Resultado positivo ✓':'Despesas superam a receita';
+  document.getElementById('an-ticket').textContent=fmtBRL(ticket);
+  document.getElementById('an-ticket-sub').textContent='média por recebimento';
+  
+  const byCat={};fpAll.filter(p=>!p.isBalance&&(p.status==='Recebido'||p.status==='Parcial')).forEach(p=>{if(p.cat)byCat[p.cat]=(byCat[p.cat]||0)+p.value;});
+  const cats=Object.keys(byCat).sort((a,b)=>byCat[b]-byCat[a]);
+  const maxCat=Math.max(...Object.values(byCat),1);
+  document.getElementById('an-by-category').innerHTML=cats.length?cats.map(c=>{const v=byCat[c]||0;return`<div class="chart-h-row"><div class="chart-h-label">${c}</div><div class="chart-h-track"><div class="chart-h-fill" style="width:${Math.round(v/maxCat*100)}%"></div></div><div class="chart-h-val">${fmtBRL(v)}</div></div>`;}).join(''):'<div style="color:var(--text-muted);font-size:13px">Sem dados para o filtro selecionado</div>';
+  
+  const byS={Recebido:0,Pendente:0,Atrasado:0};fpAll.filter(p=>!p.isBalance).forEach(p=>{if(p.status==='Parcial')byS['Recebido']+=p.value;else if(byS[p.status]!==undefined)byS[p.status]+=p.value;});
+  const totalS=Object.values(byS).reduce((a,b)=>a+b,0)||1;
+  const colors={Recebido:'var(--green)',Pendente:'var(--gold)',Atrasado:'var(--red)'};
+  document.getElementById('an-by-status').innerHTML=`<div class="donut-wrap"><svg width="100" height="100" viewBox="0 0 36 36">${(()=>{let off=0;const r=15.9;const ci=2*Math.PI*r;return Object.entries(byS).map(([k,v])=>{const pct=v/totalS;const dash=pct*ci;const gap=ci-dash;const el=`<circle cx="18" cy="18" r="${r}" fill="none" stroke="${colors[k]}" stroke-width="3.8" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-off*ci/100}" transform="rotate(-90 18 18)"/>`;off+=pct*100;return el;}).join('');})()}</svg><div class="donut-legend">${Object.entries(byS).map(([k,v])=>`<div class="legend-item"><div class="legend-dot" style="background:${colors[k]}"></div><span>${k}: <strong>${fmtBRL(v)}</strong> (${Math.round(v/totalS*100)}%)</span></div>`).join('')}<div class="legend-item" style="border-top:1px solid var(--border);padding-top:8px;margin-top:4px;"><div class="legend-dot" style="background:var(--text)"></div><span>Total: <strong>${fmtBRL(Object.values(byS).reduce((a,b)=>a+b,0))}</strong></span></div></div></div>`;
+  
+  const year=today.getFullYear();
+  const ml=['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const allPay=[...payments,...albumPayments];
+  const mr=ml.map((_,i)=>{const k=`${year}-${String(i+1).padStart(2,'0')}`;return allPay.filter(p=>getMonthKey(p.date)===k&&(p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value,0);});
+  const me=ml.map((_,i)=>{const k=`${year}-${String(i+1).padStart(2,'0')}`;return expenses.filter(e=>getMonthKey(e.date)===k).reduce((s,e)=>s+e.value,0);});
+  const maxM=Math.max(...mr,...me,1);
+  document.getElementById('an-monthly-chart').innerHTML=ml.map((lbl,i)=>{
+    const rH=Math.max(2,Math.round(mr[i]/maxM*90));
+    const eH=Math.max(2,Math.round(me[i]/maxM*90));
+    const hasR=mr[i]>0;const hasE=me[i]>0;
+    return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;justify-content:flex-end;position:relative" class="month-col">
+      ${hasR?`<div style="font-size:9px;color:var(--rose-dark);text-align:center;line-height:1.2;margin-bottom:1px">${fmtBRL(mr[i]).replace('R$\u00a0','')}</div>`:''}
+      <div style="width:40%;height:${rH}px;background:var(--rose);border-radius:3px 3px 0 0" title="Receita: ${fmtBRL(mr[i])}"></div>
+      ${hasE?`<div style="font-size:9px;color:var(--text-muted);text-align:center;line-height:1.2;margin-bottom:1px">${fmtBRL(me[i]).replace('R$\u00a0','')}</div>`:''}
+      <div style="width:40%;height:${eH}px;background:var(--rose-light);border-radius:3px 3px 0 0" title="Despesas: ${fmtBRL(me[i])}"></div>
+    </div>`;
+  }).join('');
+  document.getElementById('an-monthly-labels').innerHTML=ml.map(l=>`<div style="flex:1;text-align:center;font-size:10px;color:var(--text-muted)">${l}</div>`).join('');
+}
+
+// BAIXAR CONTA
+function receberConta(origem, idx){
+  const p=origem==='album'?albumPayments[idx]:payments[idx];
+  if(!p)return;
+  document.getElementById('baixar-nome').textContent=p.name;
+  document.getElementById('baixar-valor').textContent=fmtBRL(p.value);
+  document.getElementById('baixar-date').value=toDateStr(today);
+  document.getElementById('baixar-origem').value=origem;
+  document.getElementById('baixar-idx').value=idx;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.querySelectorAll('.modal').forEach(m=>m.style.display='none');
+  document.getElementById('modal-baixar').style.display='block';
+}
+
+function confirmarBaixa(){
+  const origem=document.getElementById('baixar-origem').value;
+  const idx=parseInt(document.getElementById('baixar-idx').value);
+  const datePag=document.getElementById('baixar-date').value;
+  if(!datePag){alert('Informe a data de pagamento');return;}
+  if(origem==='album'){
+    if(albumPayments[idx]){
+      albumPayments[idx].status='Recebido';
+      albumPayments[idx].date=datePag;
+      // Sincronizar com álbum vinculado
+      if(albumPayments[idx].linkId){
+        const alb = albums.find(a => a.linkId === albumPayments[idx].linkId);
+        if(alb) alb.payStatus = 'Recebido';
+      }
+    }
+  } else {
+    if(payments[idx]){
+      payments[idx].status='Recebido';
+      payments[idx].date=datePag;
+      // Sincronizar com compromisso vinculado
+      if(payments[idx].linkId){
+        const appt = appointments.find(a => a.linkId === payments[idx].linkId || a.linkId === payments[idx].linkId.replace('-bal', ''));
+        if(appt) appt.payStatus = 'Recebido';
+      }
+    }
+  }
+  saveAll();renderPayments();renderDashUpcoming();renderAlbums();
+  document.getElementById('modal-overlay').classList.remove('open');
+  showToast('Recebimento baixado com sucesso!');
+}
+
+// MODAL
+function openModal(type){
+  document.getElementById('modal-overlay').classList.add('open');
+  document.querySelectorAll('.modal').forEach(m=>m.style.display='none');
+  document.getElementById('modal-'+type).style.display='block';
+  const ts=toDateStr(today);
+  const idxMap={appointment:'appt-edit-idx',payment:'pay-edit-idx',expense:'exp-edit-idx',goal:'goal-edit-idx',album:'alb-edit-idx'};
+  const defT={appointment:'Novo Agendamento',payment:'Novo Recebimento',expense:'Nova Despesa',goal:'Nova Meta',album:'Novo Álbum'};
+  const tMap={appointment:'appt-modal-title',payment:'pay-modal-title',expense:'exp-modal-title',goal:'goal-modal-title',album:'alb-modal-title'};
+  
+  const editIdxEl = document.getElementById(idxMap[type]);
+  let isNew = !editIdxEl || editIdxEl.value === '-1';
+  
+  // Se clicou no botão "+ Agendamento" ou "+ Novo agendamento"
+  if(event && event.target && (event.target.innerText.includes('Agendamento') || event.target.innerText.includes('agendamento'))) isNew = true;
+
+  if(isNew){
+    if(editIdxEl) editIdxEl.value = '-1';
+    const tel=document.getElementById(tMap[type]); if(tel) tel.textContent=defT[type];
+    
+    if(type==='appointment'){
+      document.getElementById('appt-date').value=ts;
+      document.getElementById('appt-name').value='';
+      document.getElementById('appt-type').selectedIndex=0;
+      document.getElementById('appt-time').value='09:00';
+      document.getElementById('appt-local').value='';
+      document.getElementById('appt-status').value='Confirmado';
+      document.getElementById('appt-notes').value='';
+      document.getElementById('appt-value').value='';
+      document.getElementById('appt-deposit').value='0';
+      document.getElementById('appt-pay-status').value='Pendente';
+      document.getElementById('appt-pay-link-id').value='';
+      document.getElementById('appt-balance-row').style.display='none';
+      document.getElementById('appt-due-date').value='';
+      if(document.getElementById('appt-due-date-row'))document.getElementById('appt-due-date-row').style.display='none';
+    }
+    if(type==='payment'){document.getElementById('pay-date').value=ts;document.getElementById('pay-name').value='';document.getElementById('pay-value').value='';}
+    if(type==='expense'){document.getElementById('exp-date').value=ts;document.getElementById('exp-name').value='';document.getElementById('exp-value').value='';}
+    if(type==='goal'){document.getElementById('goal-name').value='';document.getElementById('goal-target').value='';document.getElementById('goal-current').value='';}
+    if(type==='album'){
+      document.getElementById('alb-name').value='';
+      document.getElementById('alb-notes').value='';
+      document.getElementById('alb-deadline').value=ts;
+      document.getElementById('alb-status').value='Aguardando seleção';
+      document.getElementById('alb-value').value='';
+      document.getElementById('alb-deposit').value='0';
+      document.getElementById('alb-pay-status').value='Pendente';
+      document.getElementById('alb-pay-link-id').value='';
+      document.getElementById('alb-balance-row').style.display='none';
+      document.getElementById('alb-due-date').value='';
+      const sel=document.getElementById('alb-appt-link');
+      sel.innerHTML='<option value="">— Nenhum —</option>'+appointments.map((a,i)=>`<option value="${i}">${a.name} · ${a.type} · ${formatDate(a.date)}</option>`).join('');
+    }
+  }
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');
+}
+
+// GOALS
+function renderGoals(){
+  const container = document.getElementById('metas-list');
+  const statsContainer = document.getElementById('metas-stats');
+  if(!container) return;
+
+  const currentMonth = (today.getMonth()+1).toString().padStart(2,'0');
+  const currentYear = today.getFullYear().toString();
+
+  // Calculate real data for progress
+  const allPay = [...payments, ...albumPayments];
+  const monthlyRevenue = allPay.filter(p => getMonthKey(p.date) === `${currentYear}-${currentMonth}` && (p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value, 0);
+  const monthlySessions = appointments.filter(a => getMonthKey(a.date) === `${currentYear}-${currentMonth}` && a.status !== 'Cancelado').length;
+
+  statsContainer.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Faturamento Atual (${monthNames[today.getMonth()]})</div>
+      <div class="stat-value">${fmtBRL(monthlyRevenue)}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Sessões Realizadas (${monthNames[today.getMonth()]})</div>
+      <div class="stat-value">${monthlySessions}</div>
+    </div>
+  `;
+
+  if(goals.length === 0){
+    container.innerHTML = '<div class="no-appts">Você ainda não cadastrou nenhuma meta.<br><button class="btn btn-outline btn-sm" style="margin-top:12px" onclick="openModal(\'goal\')">+ Criar primeira meta</button></div>';
+    return;
+  }
+
+  container.innerHTML = goals.map((g, i) => {
+    let current = 0;
+    const target = g.target || 1;
+    const goalKey = `${g.year}-${g.month}`;
+    
+    if(g.type === 'faturamento'){
+      current = allPay.filter(p => getMonthKey(p.date) === goalKey && (p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value, 0);
+    } else {
+      current = appointments.filter(a => getMonthKey(a.date) === goalKey && a.status !== 'Cancelado').length;
+    }
+
+    const pct = Math.min(100, Math.round((current / target) * 100));
+    const label = g.type === 'faturamento' ? `${fmtBRL(current)} de ${fmtBRL(target)}` : `${current} de ${target} sessões`;
+
+    return `
+      <div class="goal-row">
+        <div class="goal-header">
+          <div class="goal-name">${g.name} <span style="font-size:11px;color:var(--text-light);font-weight:400;margin-left:8px">${monthNames[parseInt(g.month)-1]} ${g.year}</span></div>
+          <div class="goal-values">${label} (${pct}%)</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
+          <button class="btn-ghost" onclick="editGoal(${i})">Editar</button>
+          <button class="btn-ghost btn-danger" onclick="deleteGoal(${i})">Excluir</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Update Dashboard Goals if we are on dashboard
+  renderDashGoals();
+}
+
+function renderDashGoals(){
+  const dashContainer = document.getElementById('dash-goals');
+  if(!dashContainer) return;
+  
+  const currentMonth = (today.getMonth()+1).toString().padStart(2,'0');
+  const currentYear = today.getFullYear().toString();
+  const currentKey = `${currentYear}-${currentMonth}`;
+  
+  const activeGoals = goals.filter(g => g.year === currentYear && g.month === currentMonth);
+  const allPay = [...payments, ...albumPayments];
+
+  if(activeGoals.length === 0){
+    dashContainer.innerHTML = '<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:10px 0">Nenhuma meta para este mês.</div>';
+    return;
+  }
+
+  dashContainer.innerHTML = activeGoals.map(g => {
+    let current = 0;
+    const target = g.target || 1;
+    if(g.type === 'faturamento'){
+      current = allPay.filter(p => getMonthKey(p.date) === currentKey && (p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value, 0);
+    } else {
+      current = appointments.filter(a => getMonthKey(a.date) === currentKey && a.status !== 'Cancelado').length;
+    }
+    const pct = Math.min(100, Math.round((current / target) * 100));
+    return `
+      <div style="margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="font-size:12px;color:var(--text)">${g.name}</span>
+          <span style="font-size:12px;font-weight:500">${pct}%</span>
+        </div>
+        <div class="progress-bar" style="height:4px"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  // Update top card with primary goal (first faturamento goal if exists, else first goal)
+  const primaryGoal = activeGoals.find(g => g.type === 'faturamento') || activeGoals[0];
+  if(primaryGoal){
+    let current = 0;
+    const target = primaryGoal.target || 1;
+    if(primaryGoal.type === 'faturamento'){
+      current = allPay.filter(p => getMonthKey(p.date) === currentKey && (p.status==='Recebido'||p.status==='Parcial')).reduce((s,p)=>s+p.value, 0);
+    } else {
+      current = appointments.filter(a => getMonthKey(a.date) === currentKey && a.status !== 'Cancelado').length;
+    }
+    const pct = Math.min(100, Math.round((current / target) * 100));
+    document.getElementById('dash-goal-title').textContent = `Meta: ${primaryGoal.name}`;
+    document.getElementById('dash-goal-pct').textContent = `${pct}%`;
+    document.getElementById('dash-goal-sub').textContent = pct >= 100 ? 'Meta atingida! 🎉' : `Faltam ${primaryGoal.type === 'faturamento' ? fmtBRL(target-current) : (target-current) + ' sessões'}`;
+  } else {
+    document.getElementById('dash-goal-title').textContent = 'Metas do Mês';
+    document.getElementById('dash-goal-pct').textContent = '—';
+    document.getElementById('dash-goal-sub').textContent = 'Nenhuma meta definida';
+  }
+}
+
+function editGoal(i){
+  const g = goals[i];
+  document.getElementById('goal-edit-idx').value = i;
+  document.getElementById('goal-modal-title').textContent = 'Editar Meta';
+  document.getElementById('goal-name').value = g.name;
+  document.getElementById('goal-type').value = g.type;
+  document.getElementById('goal-target').value = g.target;
+  document.getElementById('goal-month').value = g.month;
+  document.getElementById('goal-year').value = g.year;
+  openModal('goal');
+}
+
+function saveGoal(){
+  const name = document.getElementById('goal-name').value;
+  const type = document.getElementById('goal-type').value;
+  const target = parseFloat(document.getElementById('goal-target').value);
+  const month = document.getElementById('goal-month').value;
+  const year = document.getElementById('goal-year').value;
+  const idx = parseInt(document.getElementById('goal-edit-idx').value);
+  
+  if(!name || !target) { alert('Preencha o nome e o valor alvo'); return; }
+  
+  const obj = {name, type, target, month, year};
+  if(idx >= 0) goals[idx] = obj; else goals.push(obj);
+  
+  saveAll(); renderGoals(); closeModal();
+  showToast(idx >= 0 ? 'Meta atualizada!' : 'Meta criada!');
+}
+
+function deleteGoal(i){
+  if(!confirm('Excluir esta meta?')) return;
+  goals.splice(i, 1); saveAll(); renderGoals();
+  showToast('Meta excluída!');
+}
+
+// INIT
+renderCalendar();
+selectDay(toDateStr(today));
+renderAppointments();
+renderPayments();
+renderExpenses();
+renderDashUpcoming();
+renderGoals();
+
+// ===== GOOGLE CALENDAR — OAuth via GitHub Pages =====
+const GCAL_CLIENT_ID   = '218793564287-vdqdj73njk9iv2o36gs5ijoa6rde70et.apps.googleusercontent.com';
+const GCAL_API_KEY     = 'AIzaSyAb-cumD-hY5GMiv-85pUCIBwDxl2mYUds';
+const GCAL_SCOPES      = 'https://www.googleapis.com/auth/calendar';
+const GCAL_CALENDAR_ID = 'primary';
+const GCAL_STORE_KEY   = 'rosita_gcal_token';
+
+let gcalToken    = localStorage.getItem(GCAL_STORE_KEY) || null;
+let gcalExpiry   = parseInt(localStorage.getItem(GCAL_STORE_KEY+'_exp') || '0');
+let gcalReady    = false;
+let tokenClient  = null;
+let pendingAuth  = false;
+
+function isGCalConnected(){ return !!(gcalToken && Date.now() < gcalExpiry); }
+
+function updateGCalUI(){
+  const btn   = document.getElementById('gcal-btn');
+  const dot   = document.getElementById('gcal-dot');
+  const lbl   = document.getElementById('gcal-btn-label');
+  const panel = document.getElementById('gcal-sync-panel');
+  if(!btn) return;
+  if(isGCalConnected()){
+    btn.classList.add('connected'); btn.classList.remove('syncing');
+    dot.style.background = '#34a853'; lbl.textContent = 'Sincronizado';
+    if(panel) panel.classList.add('visible');
+  } else {
+    btn.classList.remove('connected','syncing');
+    dot.style.background = '#d0d0d0'; lbl.textContent = 'Google Cal';
+    if(panel) panel.classList.remove('visible');
+  }
+}
+
+function gcalBootstrap(callback){
+  // Step 1: load GAPI
+  if(!document.getElementById('gapi-script')){
+    const s = document.createElement('script');
+    s.id = 'gapi-script'; s.src = 'https://apis.google.com/js/api.js';
+    s.onload = () => {
+      gapi.load('client', () => {
+        gapi.client.init({
+          apiKey: GCAL_API_KEY,
+          discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
+        }).then(() => {
+          if(gcalToken) gapi.client.setToken({ access_token: gcalToken });
+          // Step 2: load GIS
+          if(!document.getElementById('gis-script')){
+            const g = document.createElement('script');
+            g.id = 'gis-script'; g.src = 'https://accounts.google.com/gsi/client';
+            g.onload = () => {
+              tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: GCAL_CLIENT_ID,
+                scope: GCAL_SCOPES,
+                callback: onGCalToken
+              });
+              gcalReady = true;
+              if(callback) callback();
+            };
+            g.onerror = () => showToast('Erro ao carregar autenticação do Google.');
+            document.head.appendChild(g);
+          } else if(callback){ callback(); }
+        }).catch(e => {
+          console.error('GAPI init error:', e);
+          showToast('Erro na API Key do Google.');
+          document.getElementById('gcal-btn-label').textContent = 'Google Cal';
+        });
+      });
+    };
+    s.onerror = () => showToast('Erro ao carregar API do Google.');
+    document.head.appendChild(s);
+  } else if(gcalReady && callback){ callback(); }
+}
+
+function onGCalToken(resp){
+  pendingAuth = false;
+  if(resp.error){
+    showToast('Erro ao autenticar: ' + (resp.error_description || resp.error));
+    document.getElementById('gcal-btn-label').textContent = 'Google Cal';
+    return;
+  }
+  gcalToken  = resp.access_token;
+  gcalExpiry = Date.now() + (resp.expires_in - 60) * 1000;
+  localStorage.setItem(GCAL_STORE_KEY, gcalToken);
+  localStorage.setItem(GCAL_STORE_KEY+'_exp', String(gcalExpiry));
+  gapi.client.setToken({ access_token: gcalToken });
+  updateGCalUI();
+  showToast('Google Calendar conectado! ✓');
+}
+
+function handleGCalAuth(){
+  if(isGCalConnected()){
+    goTo('agenda', document.querySelectorAll('.nav-item')[1]);
+    showToast('Já conectado! Veja suas opções na aba Calendário.');
+    return;
+  }
+  if(pendingAuth) return;
+  pendingAuth = true;
+  document.getElementById('gcal-btn-label').textContent = 'Conectando...';
+
+  gcalBootstrap(() => {
+    pendingAuth = false;
+    tokenClient.requestAccessToken({ prompt: 'consent' });
+  });
+}
+
+function disconnectGCal(){
+  if(!confirm('Desconectar do Google Calendar?')) return;
+  gcalToken = null; gcalExpiry = 0;
+  localStorage.removeItem(GCAL_STORE_KEY);
+  localStorage.removeItem(GCAL_STORE_KEY+'_exp');
+  if(typeof gapi !== 'undefined' && gapi.client) gapi.client.setToken(null);
+  updateGCalUI();
+  showToast('Google Calendar desconectado.');
+}
+
+function apptToGCalEvent(a){
+  const [y,m,d] = a.date.split('-');
+  const [hh,mm] = (a.time||'09:00').split(':');
+  const start   = new Date(+y,+m-1,+d,+hh,+mm);
+  const end     = new Date(start.getTime() + 90*60*1000);
+  const pad     = n => String(n).padStart(2,'0');
+  const fmt     = dt => `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}:00`;
+  return {
+    summary: `📷 ${a.name} — ${a.type}`,
+    location: a.local || '',
+    description: [`Tipo: ${a.type}`,`Status: ${a.status}`, a.notes?`Obs: ${a.notes}`:'', a.value?`Valor: R$ ${a.value}`:'',`[Rosita App ID: ${a.linkId||''}]`].filter(Boolean).join('\n'),
+    start: { dateTime: fmt(start), timeZone: 'America/Fortaleza' },
+    end:   { dateTime: fmt(end),   timeZone: 'America/Fortaleza' },
+    colorId: a.status==='Confirmado'?'1':a.status==='Realizado'?'2':a.status==='Cancelado'?'4':'5',
+  };
+}
+
+async function syncApptToGCal(appt){
+  if(!isGCalConnected()) return;
+  try {
+    const event = apptToGCalEvent(appt);
+    if(appt.gcalEventId){
+      await gapi.client.calendar.events.update({ calendarId: GCAL_CALENDAR_ID, eventId: appt.gcalEventId, resource: event });
+    } else {
+      const r = await gapi.client.calendar.events.insert({ calendarId: GCAL_CALENDAR_ID, resource: event });
+      appt.gcalEventId = r.result.id;
+    }
+    saveAll();
+  } catch(e){ console.warn('GCal sync error:', e); }
+}
+
+async function exportAllToGCal(){
+  if(!isGCalConnected()){ showToast('Conecte ao Google Calendar primeiro!'); return; }
+  document.getElementById('gcal-btn-label').textContent = 'Exportando...';
+  for(const a of appointments) await syncApptToGCal(a);
+  document.getElementById('gcal-btn-label').textContent = 'Sincronizado';
+  saveAll();
+  showToast(`${appointments.length} agendamento(s) exportado(s) ✓`);
+}
+
+async function importFromGCal(){
+  if(!isGCalConnected()){ showToast('Conecte ao Google Calendar primeiro!'); return; }
+  showToast('Importando eventos...');
+  try {
+    const now  = new Date();
+    const resp = await gapi.client.calendar.events.list({
+      calendarId: GCAL_CALENDAR_ID,
+      timeMin: new Date(now.getFullYear(), now.getMonth()-1, 1).toISOString(),
+      timeMax: new Date(now.getFullYear()+1, 11, 31).toISOString(),
+      singleEvents: true, orderBy: 'startTime', maxResults: 100
+    });
+    let imported = 0;
+    for(const ev of (resp.result.items||[])){
+      if(ev.description?.includes('[Rosita App')) continue;
+      if(!ev.start?.dateTime) continue;
+      if(appointments.find(a => a.gcalEventId === ev.id)) continue;
+      const dt  = new Date(ev.start.dateTime);
+      const pad = n => String(n).padStart(2,'0');
+      appointments.push({
+        name: ev.summary||'Evento Google', type:'Outro',
+        date: `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`,
+        time: `${pad(dt.getHours())}:${pad(dt.getMinutes())}`,
+        local: ev.location||'', status:'Confirmado',
+        notes: `[Importado do Google Calendar]`,
+        value:0, deposit:0, payStatus:'',
+        linkId:'gcal-'+ev.id, gcalEventId:ev.id, fromGCal:true
+      });
+      imported++;
+    }
+    saveAll(); renderAppointments(); renderCalendar(); renderDashUpcoming();
+    showToast(imported>0 ? `${imported} evento(s) importado(s) ✓` : 'Nenhum evento novo.');
+  } catch(e){ console.error(e); showToast('Erro ao importar eventos.'); }
+}
+
+// Auto-sync ao salvar agendamento
+const _origSaveAppointment = saveAppointment;
+window.saveAppointment = async function(){
+  const idx = parseInt(document.getElementById('appt-edit-idx').value);
+  _origSaveAppointment();
+  if(isGCalConnected()){
+    const appt = idx >= 0 ? appointments[idx] : appointments[appointments.length-1];
+    if(appt) await syncApptToGCal(appt);
+  }
+};
+
+// Recarregar token salvo no gapi ao iniciar
+window.addEventListener('load', () => {
+  updateGCalUI();
+  if(isGCalConnected()){
+    gcalBootstrap(() => {
+      gapi.client.setToken({ access_token: gcalToken });
+    });
+  }
+});
+</script>
+</body>
+</html>
